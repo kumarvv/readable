@@ -4,6 +4,7 @@ import * as API from '../utils/api'
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const RECEIVE_ALL_POSTS = 'RECEIVE_ALL_POSTS'
 export const CHANGE_CATEGORY = 'CHANGE_CATEGORY'
+export const CHANGE_SORTBY = 'CHANGE_SORTBY'
 export const ADD_POST = 'ADD_POST'
 export const GET_POST = 'GET_POST'
 export const UP_VOTE = 'UP_VOTE'
@@ -39,6 +40,13 @@ export function changeCategory(category) {
   return {
     type: CHANGE_CATEGORY,
     currentCategory: category
+  }
+}
+
+export function changeSortBy(sortBy) {
+  return {
+    type: CHANGE_SORTBY,
+    currentSortBy: sortBy
   }
 }
 

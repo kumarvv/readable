@@ -52,6 +52,7 @@ function mapStateToProps({ categories, posts }) {
   return {
     categories: categories,
     currentCategory: posts.currentCategory,
+    currentSortBy: posts.currentSortBy,
     posts: posts.data
   }
 }
