@@ -1,5 +1,41 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+}
+
+ul {
+  padding-left: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1070px;
+  padding: 20px;
+  min-width: 1070px;
+}
+
+.header {
+  font-size: 50px;
+  font-weight: 300;
+  margin: 10px 0;
+}
+
+.posts .author {
+  padding: 5px;
+  border: 1px solid silver;
+  border-radius: 3px;
+}
+
+.posts .category {
+  padding: 5px;
+  margin: 0 10px;
+  border: 1px solid silver;
+  border-radius: 3px;
+  background-color: #a68f13;
+  color: #fff;
 }
