@@ -9,12 +9,15 @@ class CreatePost extends Component {
     e.preventDefault()
 
     const values = serializeForm(e.target, { hash: true })
+    console.log(values)
     if (this.props.addPost) {
       this.props.addPost(values)
     }
   }
 
   render() {
+    const { categories } = this.props
+
     return (
       <div>
         <h1>Create Post</h1>
@@ -38,6 +41,11 @@ class CreatePost extends Component {
             <div className="field-group">
               <label htmlFor="title">Category</label>
               <select name="category" placeholder="Category">
+                {Array.isArray(categories) && (
+                  categories.map((catg) => (
+                    <option key={catg.name} value={catg.name}>{catg.name}</option>
+                  ))
+                )}
               </select>
             </div>
             <button>Create Post</button>

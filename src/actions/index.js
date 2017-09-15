@@ -46,16 +46,10 @@ export const changeSortBy = (sortBy) => ({
   currentSortBy: sortBy
 })
 
-export function receiveAddPost({ post }) {
+export function receiveAddPost(post) {
   return {
     type: ADD_POST,
-    post: {
-      ...post,
-      id: randomString(20, '#aA'),
-      timestamp: Date.now(),
-      voterScore: 0,
-      deleted: false
-    }
+    post
   }
 }
 
@@ -70,16 +64,34 @@ export const addPost = (post) => dispatch => {
 
   API
     .addPost(newPost)
-    .then(post => dispatch(receiveAddPost(post)))
+    .then(insertedPost => {
+      dispatch(receiveAddPost(insertedPost))
+    })
 }
 
-
-export function getPost({ id }) {
+export function receiveViewPost({ id }) {
   return {
     type: GET_POST,
     id
   }
 }
+
+export const viewPost = (post) => dispatch => {
+  const newPost = {
+    ...post,
+    id: randomString(20, '#aA'),
+    timestamp: Date.now(),
+    voterScore: 0,
+    deleted: false
+  }
+
+  API
+    .addPost(newPost)
+    .then(insertedPost => {
+      dispatch(receiveAddPost(insertedPost))
+    })
+}
+
 
 export function upVote({ id }) {
   return {

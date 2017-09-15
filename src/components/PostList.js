@@ -16,6 +16,10 @@ class PostList extends Component {
     }
   }
 
+  reloadPosts() {
+    this.props.fetchAllPosts()
+  }
+
   render() {
     const { posts, currentCategory } = this.props
 
@@ -28,6 +32,8 @@ class PostList extends Component {
         <CategoryLinks/>
         <SortLinks/>
         <Link to="/create">Create Post</Link>
+
+        <button type="button" onClick={() => this.reloadPosts()}>Refresh</button>
 
         <h1>Category={currentCategory}</h1>
         {(Array.isArray(displayPosts) && displayPosts.length > 0 && (
@@ -59,7 +65,8 @@ function mapStateToProps({ categories, posts }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeCategory: (catg) => dispatch(Actions.changeCategory(catg))
+    changeCategory: (catg) => dispatch(Actions.changeCategory(catg)),
+    fetchAllPosts: () => dispatch(Actions.fetchAllPosts())
   }
 }
 

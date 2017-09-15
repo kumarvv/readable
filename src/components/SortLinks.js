@@ -10,11 +10,14 @@ class SortLinks extends Component {
   }
 
   render() {
+    const { currentSortBy } = this.props
+
     return (
       <ul className="sort-by-props">
         {SORT_BY_PROPS.map(sortBy => (
           <li key={sortBy}>
             <button type="button" onClick={() => this.changeSortBy(sortBy)}>{sortBy}</button>
+            {sortBy === currentSortBy && (<span>*</span>)}
           </li>
         ))}
       </ul>
@@ -24,14 +27,13 @@ class SortLinks extends Component {
 
 function mapStateToProps({ categories, posts }) {
   return {
-    categories: categories,
-    currentSortBy: posts.currentCategory
+    currentSortBy: posts.currentSortBy
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeSortBy: (catg) => dispatch(Actions.changeSortBy(catg))
+    changeSortBy: (sortBy) => dispatch(Actions.changeSortBy(sortBy))
   }
 }
 

@@ -4,6 +4,7 @@ import { Route, withRouter } from 'react-router-dom'
 import PostList from './PostList'
 import * as Actions from "../actions"
 import CreatePost from './CreatePost'
+import PostDetails from "./PostDetails";
 
 class App extends Component {
   componentDidMount() {
@@ -22,8 +23,16 @@ class App extends Component {
           <PostList/>
         )}/>
 
-        <Route path="/create" render={() => (
+        <Route exact path="/create" render={() => (
           <CreatePost/>
+        )}/>
+
+        <Route exact path="/posts/:postId" render={({ match }) => (
+          <PostDetails match={match} mode="view"/>
+        )}/>
+
+        <Route exact path="/posts/:postId/edit" render={({ match }) => (
+          <PostDetails match={match} mode="edit"/>
         )}/>
 
         {Array.isArray(categories) && categories.map(catg => (

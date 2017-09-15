@@ -9,7 +9,7 @@ class CategoryLinks extends Component {
   }
 
   render() {
-    const { categories } = this.props
+    const { categories, currentCategory } = this.props
 
     return (
       <ul>
@@ -18,6 +18,7 @@ class CategoryLinks extends Component {
             to="/"
             onClick={() => this.changeCategory(null)}>Home
           </Link>
+          {!currentCategory && (<span>*</span>)}
         </li>
         {Array.isArray(categories) && categories.map(catg => (
           <li key={catg.name}>
@@ -25,6 +26,7 @@ class CategoryLinks extends Component {
               to={`/${catg.path}`}
               onClick={() => this.changeCategory(catg.name)}>{catg.name}
             </Link>
+            {catg.name === currentCategory && (<span>*</span>)}
           </li>
         ))}
       </ul>

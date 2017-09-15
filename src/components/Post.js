@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-// import { connect } from 'react-redux'
-// import * as Actions from "../actions"
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import * as Actions from "../actions"
 
 class Post extends Component {
   render() {
@@ -8,7 +9,8 @@ class Post extends Component {
 
     return (
       <li className="post">
-        <h3>{post.title}</h3>
+        <Link to={`/posts/${post.id}`}><h3>{post.title}</h3></Link>
+        <Link to={`/posts/${post.id}/edit`}>Edit</Link>
         <p>
           <span className="author">{post.author}</span> posted on
           <span className="timestamp">{post.timestampStr}</span>
@@ -24,6 +26,11 @@ class Post extends Component {
   }
 }
 
-export default Post
+function mapDispatchToProps(dispatch) {
+  return {
+    viewPost: (sortBy) => dispatch(Actions.changeSortBy(sortBy))
+  }
+}
 
+export default connect(null, mapDispatchToProps)(Post)
 
