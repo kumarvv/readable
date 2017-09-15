@@ -1,37 +1,32 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import * as Actions from "../actions"
 import Post from './Post'
 import CategoryLinks from './CategoryLinks'
 import SortLinks from './SortLinks'
+import { CreateLink } from './Links'
 
 class PostList extends Component {
-  componentDidMount() {
-    if (this.props.match) {
-      let catg = this.props.match.path.substr(1)
-      if (catg !== this.props.currentCategory) {
-        this.props.changeCategory(catg)
-      }
-    }
-  }
-
   reloadPosts() {
-    this.props.fetchAllPosts()
+    this.props.getAllPosts()
   }
 
   render() {
-    const { posts, currentCategory } = this.props
+    const { posts, match } = this.props
+
+    let currentCategory = match && match.params
+      ? match.params.category
+      : null
 
     let displayPosts = posts && posts
-      .filter(post => currentCategory ? currentCategory === post.category : true)
       .filter(post => !post.deleted)
+      .filter(post => currentCategory ? currentCategory === post.category : true)
 
     return (
       <div>
         <CategoryLinks/>
         <SortLinks/>
-        <Link to="/create">Create Post</Link>
+        <CreateLink/>
 
         <button type="button" onClick={() => this.reloadPosts()}>Refresh</button>
 
@@ -66,7 +61,7 @@ function mapStateToProps({ categories, posts }) {
 function mapDispatchToProps(dispatch) {
   return {
     changeCategory: (catg) => dispatch(Actions.changeCategory(catg)),
-    fetchAllPosts: () => dispatch(Actions.fetchAllPosts())
+    getAllPosts: () => dispatch(Actions.getAllPosts())
   }
 }
 

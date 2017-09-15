@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import * as Actions from "../actions"
+import { EditLink, ViewLink } from './Links'
 
 class Post extends Component {
   render() {
@@ -9,8 +9,10 @@ class Post extends Component {
 
     return (
       <li className="post">
-        <Link to={`/posts/${post.id}`}><h3>{post.title}</h3></Link>
-        <Link to={`/posts/${post.id}/edit`}>Edit</Link>
+
+        <EditLink id={post.id}/>
+
+        <h2><ViewLink id={post.id} label={post.title} /></h2>
         <p>
           <span className="author">{post.author}</span> posted on
           <span className="timestamp">{post.timestampStr}</span>
@@ -21,6 +23,10 @@ class Post extends Component {
           <span className="category">{post.category}</span>
           <span className="vote">{post.voteScore}</span>
         </p>
+        <p>
+          <button type="button" onClick={() => this.props.upVote(post.id)}>UP</button>
+          <button type="button" onClick={() => this.props.downVote(post.id)}>DOWN</button>
+        </p>
       </li>
     )
   }
@@ -28,9 +34,9 @@ class Post extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    viewPost: (sortBy) => dispatch(Actions.changeSortBy(sortBy))
+    upVote: (id) => dispatch(Actions.upVote(id)),
+    downVote: (id) => dispatch(Actions.downVote(id))
   }
 }
 
 export default connect(null, mapDispatchToProps)(Post)
-

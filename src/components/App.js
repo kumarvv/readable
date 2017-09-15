@@ -4,62 +4,50 @@ import { Route, withRouter } from 'react-router-dom'
 import PostList from './PostList'
 import * as Actions from "../actions"
 import CreatePost from './CreatePost'
-import PostDetails from "./PostDetails";
+import ViewPost from './ViewPost'
+import EditPost from './EditPost'
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchCategories()
-    this.props.fetchAllPosts()
+    this.props.getCategories()
+    this.props.getAllPosts()
   }
 
   render() {
-    const { categories } = this.props
-
     return (
       <div className="container">
-        <h1 className="header">Readable</h1>
+        <div>
+          <h1 className="header">Readable</h1>
+        </div>
 
-        <Route exact path="/" render={() => (
-          <PostList/>
-        )}/>
+        <div className="data">
+          <Route exact path="/" render={() => (
+            <PostList/>
+          )}/>
+          <Route exact path="/posts/create" render={({ history }) => (
+            <CreatePost history={history}/>
+          )}/>
+          <Route exact path="/posts/view/:postId" render={({ history, match }) => (
+            <ViewPost match={match}/>
+          )}/>
+          <Route path="/posts/edit/:postId" render={({ history, match }) => (
+            <EditPost match={match} history={history}/>
+          )}/>
 
-        <Route exact path="/create" render={() => (
-          <CreatePost/>
-        )}/>
-
-        <Route exact path="/posts/:postId" render={({ match }) => (
-          <PostDetails match={match} mode="view"/>
-        )}/>
-
-        <Route exact path="/posts/:postId/edit" render={({ match }) => (
-          <PostDetails match={match} mode="edit"/>
-        )}/>
-
-        {Array.isArray(categories) && categories.map(catg => (
-          <Route key={catg.name} path={`/${catg.path}`} render={({ match }) => (
+          <Route exact path="/:category" render={({ match }) => (
             <PostList match={match}/>
           )}/>
-        ))}
-
+        </div>
       </div>
     );
   }
 }
 
-function mapStateToProps({ categories }) {
-  return {
-    categories: categories
-  }
-}
-
 function mapDispatchToProps(dispatch) {
   return {
-    fetchCategories: () => dispatch(Actions.fetchCategories()),
-    fetchAllPosts: () => dispatch(Actions.fetchAllPosts()),
-    changeCategory: (catg) => dispatch(Actions.changeCategory(catg)),
-    changeSortBy: (sortBy) => dispatch(Actions.changeSortBy(sortBy)),
+    getCategories: () => dispatch(Actions.getCategories()),
+    getAllPosts: () => dispatch(Actions.getAllPosts())
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
-
+export default withRouter(connect(null, mapDispatchToProps)(App))

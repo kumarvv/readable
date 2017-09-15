@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import * as Actions from '../actions'
+import * as Actions from "../actions"
 import CommentsList from './CommentsList'
+import { EditLink } from './Links'
 
-class PostDetails extends Component {
+class ViewPost extends Component {
+  componentDidMount() {
+
+  }
+
   render() {
-    const { posts, match, mode } = this.props
+    const { posts, match } = this.props
 
     const postId = match && match.params
       ? match.params.postId
@@ -18,11 +23,11 @@ class PostDetails extends Component {
 
     return (
       <div>
-        <h1>{mode} Details</h1>
+        <h1>View Post</h1>
         <Link to="/">Home</Link>
         {(post && (
           <div>
-            <Link to={`/posts/${post.id}/edit`}>Edit</Link>
+            <EditLink id={post.id}/>
 
             <h3>{post.title}</h3>
             <p>
@@ -44,17 +49,13 @@ class PostDetails extends Component {
     )
   }
 }
+const mapStateToProps = ({ categories, posts }) => ({
+  categories: categories,
+  posts: posts.data
+})
 
-function mapStateToProps({ posts }) {
-  return {
-    posts: posts.data
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  addPost: (post) => dispatch(Actions.addPost(post))
+})
 
-function mapDispatchToProps(dispatch) {
-  return {
-    viewPost: (sortBy) => dispatch(Actions.changeSortBy(sortBy))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostDetails)
+export default connect(mapStateToProps, mapDispatchToProps)(ViewPost)

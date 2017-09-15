@@ -1,8 +1,8 @@
 import randomString from '../utils/helpers'
 import * as API from '../utils/api'
 
-export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
-export const RECEIVE_ALL_POSTS = 'RECEIVE_ALL_POSTS'
+export const GET_CATEGORIES = 'GET_CATEGORIES'
+export const GET_ALL_POSTS = 'GET_ALL_POSTS'
 export const CHANGE_CATEGORY = 'CHANGE_CATEGORY'
 export const CHANGE_SORTBY = 'CHANGE_SORTBY'
 export const ADD_POST = 'ADD_POST'
@@ -12,28 +12,35 @@ export const DOWN_VOTE = 'DOWN_VOTE'
 export const UPDATE_POST = 'UPDATE_POST'
 export const DELETE_POST = 'DELETE_POST'
 
-export const receiveCategories = (categories) => ({
-  type: RECEIVE_CATEGORIES,
+function handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
+}
+
+const okGetCategories = (categories) => ({
+  type: GET_CATEGORIES,
   categories
 })
 
-export const fetchCategories = () => dispatch => (
+export const getCategories = () => dispatch => (
    API
-    .fetchCategories()
+    .getCategories()
     .then(categories => {
-      return dispatch(receiveCategories(categories))
+      return dispatch(okGetCategories(categories))
     })
 )
 
-export const receiveAllPosts = (posts) => ({
-  type: RECEIVE_ALL_POSTS,
+const okGetAllPosts = (posts) => ({
+  type: GET_ALL_POSTS,
   posts
 })
 
-export const fetchAllPosts = () => dispatch => {
+export const getAllPosts = () => dispatch => {
   API
-    .fetchAllPosts()
-    .then(posts => dispatch(receiveAllPosts(posts)))
+    .getAllPosts()
+    .then(posts => dispatch(okGetAllPosts(posts)))
 }
 
 export const changeCategory = (category) => ({
@@ -46,9 +53,10 @@ export const changeSortBy = (sortBy) => ({
   currentSortBy: sortBy
 })
 
-export function receiveAddPost(post) {
+function okAddPost(post, result) {
   return {
     type: ADD_POST,
+    result,
     post
   }
 }
@@ -62,46 +70,65 @@ export const addPost = (post) => dispatch => {
     deleted: false
   }
 
-  API
+  return API
     .addPost(newPost)
-    .then(insertedPost => {
-      dispatch(receiveAddPost(insertedPost))
+    .then(resp => handleErrors(resp))
+    .then(resp => resp.json())
+    .then(insertedPost => dispatch(okAddPost(insertedPost)))
+    .catch(err => okAddPost(post, err))
+}
+
+function okUpdatePost(post, error) {
+  return {
+    type: UPDATE_POST,
+    post,
+    error
+  }
+}
+
+export const updatePost = (post) => dispatch => {
+  return API
+    .updatePost(post.id, post)
+    .then(resp => handleErrors(resp))
+    .then(resp => resp.json())
+    .then(updated => dispatch(okUpdatePost(updated)))
+    .catch(err => {
+      dispatch(okUpdatePost(post, err))
     })
 }
 
-export function receiveViewPost({ id }) {
+function okDeletePost(id) {
   return {
-    type: GET_POST,
+    type: DELETE_POST,
     id
   }
 }
 
-export const viewPost = (post) => dispatch => {
-  const newPost = {
-    ...post,
-    id: randomString(20, '#aA'),
-    timestamp: Date.now(),
-    voterScore: 0,
-    deleted: false
-  }
-
+export const deletePost = (id) => dispatch => {
   API
-    .addPost(newPost)
-    .then(insertedPost => {
-      dispatch(receiveAddPost(insertedPost))
+    .deletePost(id)
+    .then(deletedPost => {
+      dispatch(okDeletePost(deletedPost))
+    })
+}
+
+export function okUpVote(post) {
+  return {
+    type: UP_VOTE,
+    post
+  }
+}
+
+export const upVote = (id) => dispatch => {
+  API
+    .addVote(id, 'upVote')
+    .then(post => {
+      dispatch(okUpVote(post))
     })
 }
 
 
-export function upVote({ id }) {
-  return {
-    type: UP_VOTE,
-    id,
-    option: 'upVote'
-  }
-}
-
-export function downVote({ id }) {
+export function okDownVote({ id }) {
   return {
     type: DOWN_VOTE,
     id,
@@ -109,17 +136,10 @@ export function downVote({ id }) {
   }
 }
 
-export function updatePost({ id, post }) {
-  return {
-    type: UPDATE_POST,
-    id,
-    post
-  }
-}
-
-export function deletePost({ id }) {
-  return {
-    type: DELETE_POST,
-    id
-  }
+export const downVote = (id) => dispatch => {
+  API
+    .addVote(id, 'downVote')
+    .then(post => {
+      dispatch(okDownVote(post))
+    })
 }

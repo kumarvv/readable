@@ -4,7 +4,7 @@ import * as Actions from '../actions'
 
 function categories(state = {}, action) {
   switch (action.type) {
-    case Actions.RECEIVE_CATEGORIES:
+    case Actions.GET_CATEGORIES:
       return action.categories
 
     default:
@@ -14,7 +14,7 @@ function categories(state = {}, action) {
 
 function posts(state = {}, action) {
   switch (action.type) {
-    case Actions.RECEIVE_ALL_POSTS:
+    case Actions.GET_ALL_POSTS:
       let currentSortBy = state.currentSortBy ? state.currentSortBy : 'voteScore'
 
       return {
@@ -47,6 +47,20 @@ function posts(state = {}, action) {
         data: (Array.isArray(state.data)
           ? state.data.concat(action.post)
           : [action.post]).sort(state.currentSortBy)
+      }
+
+    case Actions.UPDATE_POST:
+    case Actions.DELETE_POST:
+    case Actions.UP_VOTE:
+    case Actions.DOWN_VOTE:
+      return {
+        ...state,
+        data: (Array.isArray(state.data)
+        ? state.data.map(p => action.post && p.id === action.post.id
+          ? action.post
+          : p)
+          : [action.post]).sort(state.currentSortBy),
+        error: action.error ? action.error.message : null
       }
 
     default:

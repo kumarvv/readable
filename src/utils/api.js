@@ -10,19 +10,19 @@ const headers = {
   'Authorization': token
 }
 
-export const fetchCategories = () => (
+export const getCategories = () => (
   fetch(`${api}/categories`, {headers})
     .then(res => res.json())
     .then(data => data.categories)
 )
 
-export const fetchCategoryPosts = (category) => (
+export const getCategoryPosts = (category) => (
   fetch(`${api}/${category}/posts`, {headers})
     .then(res => res.json())
     .then(data => data.posts)
 )
 
-export const fetchAllPosts = () => (
+export const getAllPosts = () => (
   fetch(`${api}/posts`, {headers})
     .then(res => res.json())
     .then(data => data)
@@ -37,7 +37,6 @@ export const addPost = (post) => {
     },
     body: JSON.stringify(post)
   })
-    .then(res => res.json())
 }
 
 export const getPost = (id) => {
@@ -57,8 +56,6 @@ export const addVote = (id, vote) => {
       option: vote
     })
   })
-    .then(res => res.json())
-    .then(data => data.post)
 }
 
 export const updatePost = (id, post) => {
@@ -68,16 +65,11 @@ export const updatePost = (id, post) => {
       ...headers,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      title: post.title,
-      body: post.body
-    })
+    body: JSON.stringify(post)
   })
-    .then(res => res.json())
-    .then(data => data.post)
 }
 
-export const deletePost = (id, post) => {
+export const deletePost = (id) => {
   return fetch(`${api}/posts/${id}`, {
     method: 'DELETE',
     headers: {
