@@ -36,26 +36,43 @@ export const fetchAllPosts = () => dispatch => {
     .then(posts => dispatch(receiveAllPosts(posts)))
 }
 
-export function changeCategory(category) {
-  return {
-    type: CHANGE_CATEGORY,
-    currentCategory: category
-  }
-}
+export const changeCategory = (category) => ({
+  type: CHANGE_CATEGORY,
+  currentCategory: category
+})
 
-export function changeSortBy(sortBy) {
-  return {
-    type: CHANGE_SORTBY,
-    currentSortBy: sortBy
-  }
-}
+export const changeSortBy = (sortBy) => ({
+  type: CHANGE_SORTBY,
+  currentSortBy: sortBy
+})
 
-export function addPost({ post }) {
+export function receiveAddPost({ post }) {
   return {
     type: ADD_POST,
-    post: { ...post, id: randomString('#aA') }
+    post: {
+      ...post,
+      id: randomString(20, '#aA'),
+      timestamp: Date.now(),
+      voterScore: 0,
+      deleted: false
+    }
   }
 }
+
+export const addPost = (post) => dispatch => {
+  const newPost = {
+    ...post,
+    id: randomString(20, '#aA'),
+    timestamp: Date.now(),
+    voterScore: 0,
+    deleted: false
+  }
+
+  API
+    .addPost(newPost)
+    .then(post => dispatch(receiveAddPost(post)))
+}
+
 
 export function getPost({ id }) {
   return {

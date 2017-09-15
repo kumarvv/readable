@@ -15,7 +15,7 @@ function categories(state = {}, action) {
 function posts(state = {}, action) {
   switch (action.type) {
     case Actions.RECEIVE_ALL_POSTS:
-      let currentSortBy = state.currentSortBy ? state.currentSortBy : 'timestamp'
+      let currentSortBy = state.currentSortBy ? state.currentSortBy : 'voteScore'
 
       return {
         ...state,
@@ -24,7 +24,7 @@ function posts(state = {}, action) {
           ? action.posts.map(post => {
             post.timestampStr = new Date(post.timestamp).toLocaleString()
             return post
-          }).sort(sortBy(sortBy))
+          }).sort(sortBy('-'+currentSortBy))
           : []
       }
 
@@ -37,8 +37,16 @@ function posts(state = {}, action) {
     case Actions.CHANGE_SORTBY:
       return {
         ...state,
-        data: state.data ? state.data.sort(sortBy(action.currentSortBy)) : [],
+        data: state.data ? state.data.sort(sortBy('-'+action.currentSortBy)) : [],
         currentSortBy: action.currentSortBy
+      }
+
+    case Actions.ADD_POST:
+      return {
+        ...state,
+        data: (Array.isArray(state.data)
+          ? state.data.concat(action.post)
+          : [action.post]).sort(state.currentSortBy)
       }
 
     default:

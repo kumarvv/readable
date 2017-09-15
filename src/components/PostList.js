@@ -1,45 +1,45 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import * as Actions from "../actions"
+import Post from './Post'
+import CategoryLinks from './CategoryLinks'
+import SortLinks from './SortLinks'
 
 class PostList extends Component {
   componentDidMount() {
-    if (this.props.match && this.props.setCurrentCategory) {
-      this.props.setCurrentCategory(this.props.match.params.category)
+    if (this.props.match) {
+      let catg = this.props.match.path.substr(1)
+      if (catg !== this.props.currentCategory) {
+        this.props.changeCategory(catg)
+      }
     }
   }
 
   render() {
     const { posts, currentCategory } = this.props
 
-    if (!posts || posts.length === 0) {
-      return <p>No posts found</p>
-    }
-
-    let displayPosts = posts
+    let displayPosts = posts && posts
       .filter(post => currentCategory ? currentCategory === post.category : true)
       .filter(post => !post.deleted)
 
     return (
       <div>
+        <CategoryLinks/>
+        <SortLinks/>
+        <Link to="/create">Create Post</Link>
+
         <h1>Category={currentCategory}</h1>
-        <ul className="posts">
-          {displayPosts.map((post) => (
-            <li key={post.id} className="post">
-              <h3>{post.title}</h3>
-              <p>
-                <span className="author">{post.author}</span> posted on
-                <span className="timestamp">{post.timestampStr}</span>
-                <span className="comments">0 comments</span>
-              </p>
-              <p>{post.body}</p>
-              <p>
-                <span className="category">{post.category}</span>
-                <span className="vote">{post.voteScore}</span>
-              </p>
-            </li>
-          ))}
-        </ul>
+        {(Array.isArray(displayPosts) && displayPosts.length > 0 && (
+          <ul className="posts">
+            {displayPosts.map((post) => (
+              <Post key={post.id} post={post}/>
+            ))}
+          </ul>
+        )) || (
+          <h3>No posts found</h3>
+        )}
+
       </div>
     )
   }
@@ -56,7 +56,6 @@ function mapStateToProps({ categories, posts }) {
     posts: posts.data
   }
 }
-
 
 function mapDispatchToProps(dispatch) {
   return {

@@ -38,7 +38,6 @@ export const addPost = (post) => {
     body: JSON.stringify(post)
   })
     .then(res => res.json())
-    .then(data => data.post)
 }
 
 export const getPost = (id) => {
