@@ -2,6 +2,7 @@ import randomString from '../utils/helpers'
 import * as API from '../utils/api'
 
 export const GET_CATEGORIES = 'GET_CATEGORIES'
+
 export const GET_ALL_POSTS = 'GET_ALL_POSTS'
 export const CHANGE_CATEGORY = 'CHANGE_CATEGORY'
 export const CHANGE_SORTBY = 'CHANGE_SORTBY'
@@ -11,6 +12,13 @@ export const UP_VOTE = 'UP_VOTE'
 export const DOWN_VOTE = 'DOWN_VOTE'
 export const UPDATE_POST = 'UPDATE_POST'
 export const DELETE_POST = 'DELETE_POST'
+
+export const GET_COMMENTS = 'GET_COMMENTS'
+export const ADD_COMMENT = 'ADD_COMMENT'
+export const UPDATE_COMMENT = 'UPDATE_COMMENT'
+export const DELETE_COMMENT = 'DELETE_COMMENT'
+export const UP_VOTE_COMMENT = 'UP_VOTE_COMMENT'
+export const DOWN_VOTE_COMMENT = 'DOWN_VOTE_COMMENT'
 
 function handleErrors(response) {
     if (!response.ok) {
@@ -105,14 +113,14 @@ function okDeletePost(id) {
 }
 
 export const deletePost = (id) => dispatch => {
-  API
+  return API
     .deletePost(id)
     .then(deletedPost => {
       dispatch(okDeletePost(deletedPost))
     })
 }
 
-export function okUpVote(post) {
+function okUpVote(post) {
   return {
     type: UP_VOTE,
     post
@@ -120,26 +128,74 @@ export function okUpVote(post) {
 }
 
 export const upVote = (id) => dispatch => {
-  API
+  return API
     .addVote(id, 'upVote')
-    .then(post => {
-      dispatch(okUpVote(post))
-    })
+    .then(resp => handleErrors(resp))
+    .then(resp => resp.json())
+    .then(post => dispatch(okUpVote(post)))
+    .catch(err => okUpVote(null, err))
 }
 
-
-export function okDownVote({ id }) {
+function okDownVote(post) {
   return {
     type: DOWN_VOTE,
-    id,
-    option: 'downVote'
+    post
   }
 }
 
 export const downVote = (id) => dispatch => {
-  API
+  return API
     .addVote(id, 'downVote')
-    .then(post => {
-      dispatch(okDownVote(post))
+    .then(resp => handleErrors(resp))
+    .then(resp => resp.json())
+    .then(post => dispatch(okDownVote(post)))
+    .catch(err => okDownVote(null, err))
+}
+
+function okGetComments(comments) {
+  return {
+    type: GET_COMMENTS,
+    comments
+  }
+}
+
+export const getComments = (postId) => dispatch => {
+  return API
+    .getComments(postId)
+    .then(data => {
+      dispatch(okGetComments(data))
     })
+}
+
+
+function okUpVoteComment(comment) {
+  return {
+    type: UP_VOTE_COMMENT,
+    comment
+  }
+}
+
+export const upVoteComment = (id) => dispatch => {
+  return API
+    .addCommentVote(id, 'upVote')
+    .then(resp => handleErrors(resp))
+    .then(resp => resp.json())
+    .then(comment => dispatch(okUpVoteComment(comment)))
+    .catch(err => okUpVoteComment(null, err))
+}
+
+function okDownVoteComment(comment) {
+  return {
+    type: DOWN_VOTE_COMMENT,
+    comment
+  }
+}
+
+export const downVoteComment = (id) => dispatch => {
+  return API
+    .addCommentVote(id, 'downVote')
+    .then(resp => handleErrors(resp))
+    .then(resp => resp.json())
+    .then(comment => dispatch(okDownVoteComment(comment)))
+    .catch(err => okDownVoteComment(null, err))
 }

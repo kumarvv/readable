@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import * as Actions from "../actions"
+import * as Actions from '../actions'
+import Comment from './Comment'
 
 class CommentsList extends Component {
   render() {
-    const { post } = this.props
+    const { comments } = this.props
 
     return (
       <div>
         <h1>Comments</h1>
-        { post && post.comments && (
-          post.comments.map(comment => (
-            <li>
-              {comment.body} by {comment.author}
+        { Array.isArray(comments) && (
+          comments.map(comment => (
+            <li key={comment.id}>
+              <Comment comment={comment}/>
             </li>
           ))
         )}

@@ -12,11 +12,15 @@ function categories(state = {}, action) {
   }
 }
 
+function sortByDesc(key) {
+  return sortBy('-' + key)
+}
+
 function posts(state = {}, action) {
+  let currentSortBy = state.currentSortBy ? state.currentSortBy : 'voteScore'
+
   switch (action.type) {
     case Actions.GET_ALL_POSTS:
-      let currentSortBy = state.currentSortBy ? state.currentSortBy : 'voteScore'
-
       return {
         ...state,
         currentSortBy: currentSortBy,
@@ -24,7 +28,7 @@ function posts(state = {}, action) {
           ? action.posts.map(post => {
             post.timestampStr = new Date(post.timestamp).toLocaleString()
             return post
-          }).sort(sortBy('-'+currentSortBy))
+          }).sort(sortByDesc(currentSortBy))
           : []
       }
 
@@ -37,7 +41,9 @@ function posts(state = {}, action) {
     case Actions.CHANGE_SORTBY:
       return {
         ...state,
-        data: state.data ? state.data.sort(sortBy('-'+action.currentSortBy)) : [],
+        data: state.data
+          ? state.data.sort(sortByDesc(currentSortBy))
+          : [],
         currentSortBy: action.currentSortBy
       }
 
@@ -46,7 +52,8 @@ function posts(state = {}, action) {
         ...state,
         data: (Array.isArray(state.data)
           ? state.data.concat(action.post)
-          : [action.post]).sort(state.currentSortBy)
+          : [action.post]
+          ).sort(sortByDesc(currentSortBy))
       }
 
     case Actions.UPDATE_POST:
@@ -56,10 +63,11 @@ function posts(state = {}, action) {
       return {
         ...state,
         data: (Array.isArray(state.data)
-        ? state.data.map(p => action.post && p.id === action.post.id
-          ? action.post
-          : p)
-          : [action.post]).sort(state.currentSortBy),
+          ? state.data.map(p => action.post && p.id === action.post.id
+            ? action.post
+            : p)
+            : [action.post]
+          ).sort(sortByDesc(currentSortBy)),
         error: action.error ? action.error.message : null
       }
 
@@ -68,7 +76,50 @@ function posts(state = {}, action) {
   }
 }
 
+function comments(state = {}, action) {
+  switch(action.type) {
+    case Actions.GET_COMMENTS:
+      return {
+        ...state,
+        data: Array.isArray(action.comments)
+          ? action.comments.map(comment => {
+            comment.timestampStr = new Date(comment.timestamp).toLocaleString()
+            return comment
+          }).sort(sortByDesc('voteScore'))
+          : []
+      }
+
+    case Actions.ADD_COMMENT:
+      return {
+        ...state,
+        data: state.data
+          ? state.data.concat(action.comment)
+          : [action.comment]
+      }
+
+    case Actions.UPDATE_COMMENT:
+    case Actions.DELETE_COMMENT:
+    case Actions.UP_VOTE_COMMENT:
+    case Actions.DOWN_VOTE_COMMENT:
+      return {
+        ...state,
+        data: (Array.isArray(state.data)
+          ? state.data.map(c => action.comment && c.id === action.comment.id
+            ? action.comment
+            : c)
+            : [action.comment]
+          ).sort(sortByDesc('voteScore')),
+        error: action.error ? action.error.message : null
+      }
+
+    default:
+      return state
+  }
+
+}
+
 export default combineReducers({
   categories,
-  posts
+  posts,
+  comments
 })

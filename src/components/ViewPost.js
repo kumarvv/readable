@@ -7,11 +7,19 @@ import { EditLink } from './Links'
 
 class ViewPost extends Component {
   componentDidMount() {
+    const { posts, comments, match } = this.props
 
+    const postId = match && match.params
+      ? match.params.postId
+      : null
+
+    if (postId) {
+      this.props.getComments(postId)
+    }
   }
 
   render() {
-    const { posts, match } = this.props
+    const { posts, comments, match } = this.props
 
     const postId = match && match.params
       ? match.params.postId
@@ -40,7 +48,7 @@ class ViewPost extends Component {
               <span className="category">{post.category}</span>
               <span className="vote">{post.voteScore}</span>
             </p>
-            <CommentsList post={post}/>
+            <CommentsList comments={comments}/>
           </div>
         )) || (
           <p>Post not found</p>
@@ -49,13 +57,14 @@ class ViewPost extends Component {
     )
   }
 }
-const mapStateToProps = ({ categories, posts }) => ({
+const mapStateToProps = ({ categories, posts, comments }) => ({
   categories: categories,
-  posts: posts.data
+  posts: posts.data,
+  comments: comments ? comments.data : []
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  addPost: (post) => dispatch(Actions.addPost(post))
+  getComments: (postId) => dispatch(Actions.getComments(postId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost)
