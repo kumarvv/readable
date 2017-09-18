@@ -48,7 +48,7 @@ class ViewPost extends Component {
               <span className="category">{post.category}</span>
               <span className="vote">{post.voteScore}</span>
             </p>
-            <CommentsList comments={comments}/>
+            <CommentsList postId={post.id} comments={comments}/>
           </div>
         )) || (
           <p>Post not found</p>
@@ -60,7 +60,7 @@ class ViewPost extends Component {
 const mapStateToProps = ({ categories, posts, comments }) => ({
   categories: categories,
   posts: posts.data,
-  comments: comments ? comments.data : []
+  comments: comments ? comments.data : {}
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -81,20 +81,26 @@ function comments(state = {}, action) {
     case Actions.GET_COMMENTS:
       return {
         ...state,
-        data: Array.isArray(action.comments)
-          ? action.comments.map(comment => {
-            comment.timestampStr = new Date(comment.timestamp).toLocaleString()
-            return comment
-          }).sort(sortByDesc('voteScore'))
-          : []
+        data: {
+          ...state.data,
+          [action.postId]: Array.isArray(action.comments)
+            ? action.comments.map(comment => {
+              comment.timestampStr = new Date(comment.timestamp).toLocaleString()
+              return comment
+            }).sort(sortByDesc('voteScore'))
+            : []
+        }
       }
 
     case Actions.ADD_COMMENT:
       return {
         ...state,
-        data: state.data
-          ? state.data.concat(action.comment)
-          : [action.comment]
+        data: {
+          ...state.data,
+          [action.postId]: state.data
+            ? state.data.concat(action.comment)
+            : [action.comment]
+        }
       }
 
     case Actions.UPDATE_COMMENT:
@@ -103,12 +109,15 @@ function comments(state = {}, action) {
     case Actions.DOWN_VOTE_COMMENT:
       return {
         ...state,
-        data: (Array.isArray(state.data)
-          ? state.data.map(c => action.comment && c.id === action.comment.id
-            ? action.comment
-            : c)
+        data: {
+          ...state.data,
+          [action.postId]: (Array.isArray(state.data)
+            ? state.data.map(c => action.comment && c.id === action.comment.id
+              ? action.comment
+              : c)
             : [action.comment]
-          ).sort(sortByDesc('voteScore')),
+          ).sort(sortByDesc('voteScore'))
+        },
         error: action.error ? action.error.message : null
       }
 

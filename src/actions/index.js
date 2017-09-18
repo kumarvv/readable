@@ -152,9 +152,10 @@ export const downVote = (id) => dispatch => {
     .catch(err => okDownVote(null, err))
 }
 
-function okGetComments(comments) {
+function okGetComments(postId, comments) {
   return {
     type: GET_COMMENTS,
+    postId,
     comments
   }
 }
@@ -163,7 +164,7 @@ export const getComments = (postId) => dispatch => {
   return API
     .getComments(postId)
     .then(data => {
-      dispatch(okGetComments(data))
+      dispatch(okGetComments(postId, data))
     })
 }
 
