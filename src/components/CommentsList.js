@@ -8,23 +8,49 @@ import CommentModal from "./CommentModal";
 class CommentsList extends Component {
   state = {
     modalOpen: false,
-    modalComment: {}
+    modalComment: {},
+    modalMode: 'create'
   }
 
   openAddModal = () => {
-    this.setSate(() => ({
+    this.setState(() => ({
       modalOpen: true,
-      modalComment: {}
+      modalComment: {},
+      modalMode: 'create'
     }))
   }
 
-  onSaveAddModal = () => {
+  openEditModal = (comment) => {
+    this.setState(() => ({
+      modalOpen: true,
+      modalComment: comment,
+      modalMode: 'edit'
+    }))
+  }
 
+  closeModal = () => {
+    this.setState(() => ({
+      modalOpen: false
+    }))
+  }
+
+
+  onSubmitModal(comment) {
+    const { updateComment, addComment } = this.props
+    const { mode } = this.state
+
+    if (mode === 'edit') {
+      updateComment(comment)
+    } else {
+      addComment(comment)
+    }
+
+    this.closeModal()
   }
 
   render() {
     const { postId, comments } = this.props
-    const { modalOpen, modalComment } = this.state
+    const { modalMode, modalComment, modalOpen } = this.state
 
     const postComments = comments ? comments[postId] : []
 
@@ -36,23 +62,30 @@ class CommentsList extends Component {
           postComments.map(comment => (
             <li key={comment.id}>
               <Comment comment={comment}/>
+              <button
+                type="button"
+                onClick={() => this.openEditModal(comment)}>Edit</button>
             </li>
           ))
         )}
         </ul>
-        <button type="button" onClick={() => this.openAddModal}>Add Comment</button>
-        
-        <Modal
-          className="modal"
-          overlayClassName="overlay"
-          isOpen={modalOpen}
-          contentLabel="Modal"
-        >
-          {modalOpen && (
-            <div>Comments Form</div>
-          )}
-          TEST123
-        </Modal>
+
+        <button
+          type="button"
+          onClick={() => this.openAddModal()}>
+          Add Comment
+        </button>
+
+        { modalOpen && (
+          <CommentModal
+            postId={postId}
+            modalOpen={modalOpen}
+            comment={modalComment}
+            mode={modalMode}
+            onClose={() => this.closeModal()}
+            onSubmit={(comment) => this.onSubmitModal(comment)}
+            />
+        )}
       </div>
     )
   }
@@ -64,9 +97,4 @@ function mapStateToProps({ posts }) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommentsList)
+export default connect(mapStateToProps, null)(CommentsList)

@@ -2,19 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import serializeForm from 'form-serialize'
 import { Link } from 'react-router-dom'
+import fillForm from '../utils/form'
 
 class PostForm extends Component {
   componentDidMount() {
-    this.fill(this.props.post)
-  }
-
-  fill = (data) => {
-    data && Object.keys(data).forEach(key => {
-      let elm = document.getElementsByName(key)[0]
-      elm && (
-        elm.value = data[key]
-      )
-    })
+    fillForm(this.props.post)
   }
 
   handleSubmit = (e) => {

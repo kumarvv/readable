@@ -200,3 +200,37 @@ export const downVoteComment = (id) => dispatch => {
     .then(comment => dispatch(okDownVoteComment(comment)))
     .catch(err => okDownVoteComment(null, err))
 }
+
+function onAddComment(comment, error) {
+  return {
+    type: ADD_COMMENT,
+    comment,
+    error: error ? error : null
+  }
+}
+
+export const addComment = (comment) => dispatch => {
+  return API
+    .addComment(comment)
+    .then(resp => handleErrors(resp))
+    .then(resp => resp.json())
+    .then(comment => dispatch(onAddComment(comment)))
+    .catch(err => onAddComment(null, err))
+}
+
+function onUpdateComment(comment, error) {
+  return {
+    type: UPDATE_COMMENT,
+    comment,
+    error: error ? error : null
+  }
+}
+
+export const updateComment = (comment) => dispatch => {
+  return API
+    .updateComment(comment)
+    .then(resp => handleErrors(resp))
+    .then(resp => resp.json())
+    .then(comment => dispatch(onUpdateComment(comment)))
+    .catch(err => onUpdateComment(null, err))
+}

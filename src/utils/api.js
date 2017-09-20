@@ -105,19 +105,6 @@ export const addComment = (comment) => {
   })
 }
 
-export const addCommentVote = (id, vote) => {
-  return fetch(`${api}/comments/${id}`, {
-    method: 'POST',
-    headers: {
-      ...headers,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      option: vote
-    })
-  })
-}
-
 export const updateComment = (id, comment) => {
   return fetch(`${api}/comments/${id}`, {
     method: 'PUT',
@@ -137,5 +124,18 @@ export const deleteComment = (id, comment) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({})
+  })
+}
+
+export const addCommentVote = (id, vote) => {
+  return fetch(`${api}/comments/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      option: vote
+    })
   })
 }
