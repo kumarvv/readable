@@ -4,6 +4,9 @@ import * as Actions from "../actions"
 import UserIcon from 'react-icons/lib/fa/user'
 import UpIcon from 'react-icons/lib/fa/angle-up'
 import DownIcon from 'react-icons/lib/fa/angle-down'
+import EditIcon from 'react-icons/lib/fa/edit'
+import DeleteIcon from 'react-icons/lib/fa/trash-o'
+import { toDateString } from "../utils/helpers";
 
 class Comment extends Component {
   handleOnClickEdit(comment) {
@@ -34,25 +37,31 @@ class Comment extends Component {
         </div>
 
         <div className="comment-body">
-          <p>{comment.body} by {comment.author}</p>
+          <p>{comment.body}</p>
         </div>
 
         <div className="comment-footer">
-          <button
-            type="button"
-            onClick={() => this.handleOnClickEdit(comment)}>
-            Edit
-          </button>
-          <button
-            type="button"
-            onClick={() => this.props.deleteComment(comment.parentId, comment.id)}>
-            Delete
-          </button>
-          <span className="author">
-            <UserIcon size={16}/>
-            {comment.author}
-          </span>
-          <span className="timestamp">posted on {comment.timestampStr}</span>
+          <div className="buttons">
+            <button
+              type="button"
+              className="edit"
+              onClick={() => this.handleOnClickEdit(comment)}>
+              <EditIcon size={16}/>Edit
+            </button>
+            <button
+              type="button"
+              className="delete"
+              onClick={() => this.props.deleteComment(comment.parentId, comment.id)}>
+              <DeleteIcon size={16}/>Delete
+            </button>
+          </div>
+          <div className="info">
+            <span className="author">
+              <UserIcon size={16}/>
+              {comment.author}
+            </span>
+            <span className="timestamp">posted on {toDateString(comment.timestamp)}</span>
+          </div>
         </div>
       </div>
     )

@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import * as Actions from "../actions"
 import CommentsList from './CommentsList'
-import { HomeLink, EditLink } from './Links'
 import Post from './Post'
 
 class ViewPost extends Component {
@@ -34,7 +32,7 @@ class ViewPost extends Component {
       <div className="view-post">
         {(post && (
           <div>
-            <Post post={post}/>
+            <Post post={post} comments={comments}/>
             <CommentsList post={post} comments={comments}/>
           </div>
         )) || (

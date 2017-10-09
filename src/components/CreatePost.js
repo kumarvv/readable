@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as Actions from "../actions"
 import PostForm from './PostForm'
-import { HomeLink } from './Links'
 
 class CreatePost extends Component {
   onSubmit = (post) => {
@@ -22,7 +21,6 @@ class CreatePost extends Component {
     return (
       <div>
         <h1>Add a Post</h1>
-        <HomeLink/>
 
         <PostForm
           post={{}}

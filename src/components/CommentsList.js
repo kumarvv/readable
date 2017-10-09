@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import * as Actions from '../actions'
 import Comment from './Comment'
 import CommentModal from "./CommentModal";
+import AddIcon from 'react-icons/lib/fa/plus-square-o'
 
 class CommentsList extends Component {
   state = {
@@ -60,7 +61,7 @@ class CommentsList extends Component {
           type="button"
           className="add-comment"
           onClick={() => this.openAddModal()}>
-          Add Comment
+          <AddIcon size={16}/>Add Comment
         </button>
 
         <ul>

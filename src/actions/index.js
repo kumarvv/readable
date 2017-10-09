@@ -1,4 +1,4 @@
-import randomString from '../utils/helpers'
+import { randomString } from '../utils/helpers'
 import * as API from '../utils/api'
 
 export const GET_CATEGORIES = 'GET_CATEGORIES'
@@ -46,9 +46,12 @@ const onGetAllPosts = (posts) => ({
 })
 
 export const getAllPosts = () => dispatch => {
-  API
+  return API
     .getAllPosts()
-    .then(posts => dispatch(onGetAllPosts(posts)))
+    .then(posts => {
+      dispatch(onGetAllPosts(posts))
+      return posts
+    })
 }
 
 export const changeCategory = (category) => ({
@@ -115,8 +118,8 @@ function onDeletePost(id) {
 export const deletePost = (id) => dispatch => {
   return API
     .deletePost(id)
-    .then(deletedPost => {
-      dispatch(onDeletePost(deletedPost))
+    .then(resp => {
+      dispatch(onDeletePost(id))
     })
 }
 

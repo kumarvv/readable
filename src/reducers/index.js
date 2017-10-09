@@ -42,7 +42,7 @@ function posts(state = {}, action) {
       return {
         ...state,
         data: state.data
-          ? state.data.sort(sortByDesc(currentSortBy))
+          ? state.data.sort(sortByDesc(action.currentSortBy))
           : [],
         currentSortBy: action.currentSortBy
       }

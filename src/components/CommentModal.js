@@ -34,7 +34,7 @@ class CommentModal extends Component {
 
     return (
       <Modal
-        className="modal"
+        className="comments-modal"
         overlayClassName="overlay"
         isOpen={modalOpen}
         onRequestClose={onClose}
@@ -42,27 +42,27 @@ class CommentModal extends Component {
         contentLabel="Modal"
       >
         <form onSubmit={(e) => this.onSubmit(e)}>
-          <p>
+          <div className="modal-body">
             <textarea
               name="body"
               placeholder="Body"
             />
-          </p>
-          <p>
             <input
               type="text"
               name="author"
               placeholder="Author"
             />
-          </p>
+          </div>
 
-          <div className="footer">
+          <div className="modal-footer">
             <button
-              type="submit">
+              type="submit"
+              className="primary">
               Save
             </button>
             <button
               type="cancel"
+              className="cancel"
               onClick={onClose}>
               Cancel
             </button>

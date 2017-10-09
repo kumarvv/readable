@@ -2,12 +2,12 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 200;
+  font-weight: 300;
 }
 
 p {
   font-size: 1.4em;
-  font-weight: 200;
+  font-weight: 300;
   margin: 5px;
 }
 
@@ -15,6 +15,11 @@ h1 {
   font-weight: 300;
   font-size: 3em;
   margin: 5px;
+}
+
+button {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 200;
 }
 
 .container {
@@ -34,6 +39,7 @@ h1 {
 
 .header h1 {
   color: #fff;
+  font-weight: 400;
 }
 
 .header > .home-link {
@@ -71,6 +77,14 @@ h1 {
   padding: 0;
 }
 
+a.edit-link {
+  font-size: 1.1em;
+}
+
+a.edit-link > svg {
+  margin-right: 3px;
+}
+
 .posts-list > .links {
   position: fixed;
   right: 0;
@@ -105,6 +119,7 @@ h1 {
 
 .posts-list > .links > .category-links > ul > li.selected {
   background: #fff;
+  padding: 6px 15px;
 }
 
 .posts-list > .links > .category-links > ul > li > a {
@@ -150,6 +165,11 @@ h1 {
   color: #000;
 }
 
+.posts-list > .posts > h3 {
+  margin: 0;
+  padding: 15px;
+}
+
 .posts-list > .posts > ul {
   list-style: none;
   margin: 0;
@@ -164,23 +184,6 @@ h1 {
 
 .posts-list > .posts h2 > a {
   text-decoration: none;
-}
-
-.author {
-  font-size: .7em;
-  border: 1px solid #e6e6e6;
-  border-radius: 5px;
-  padding: 1px 4px 2px 4px;
-  background: #f5f7e2;
-}
-
-.author > svg {
-  padding-right: 3px;
-}
-
-.timestamp {
-  font-size: .7em;
-  padding: 1px 10px 2px 10px;
 }
 
 .comments {
@@ -200,16 +203,16 @@ h1 {
 
 .post > .votes {
   position: absolute;
-  width: 70px;
+  width: 50px;
   text-align: center;
-  margin-top: -25px;
+  margin-top: -15px;
 }
 
 .post > .votes button {
   border: none;
   background: transparent;
   padding: 5px;
-  height: 55px;
+  height: 35px;
   color: darkgray;
   outline: none;
 }
@@ -224,35 +227,94 @@ h1 {
 }
 
 .post > .post-body {
-  margin-left: 70px;
+  margin-left: 50px;
+}
+
+.post > .post-body > h2 {
+  margin: 5px 0;
+  font-size: 1.6em;
+  font-weight: 400;
+}
+
+.post > .post-body > h2 > a {
+  text-decoration: none;
+  color: #005998;
 }
 
 .post > .post-body > span {
-  font-size: 1.1em;
+  font-size: 1.2em;
 }
 
 .post > .post-footer {
   margin-top: 10px;
-  margin-left: 70px;
+  margin-left: 50px;
   text-align: right;
-  padding: 10px;
+  padding: 10px 10px 10px 0;
 }
 
-.post > .post-footer > .category {
-  padding: 1px 5px 2px 5px;
-  font-size: .8em;
+.post > .post-footer > .buttons {
+  float: left;
+  height: 25px;
+}
+
+.post > .post-footer > .buttons > .edit {
+  margin: 0px 5px;
+}
+
+.post > .post-footer > .buttons > .edit > a {
+  text-decoration: none;
+  color: #000;
+}
+
+.post > .post-footer > .buttons > .delete {
+  margin: 0px 5px;
+}
+
+.post > .post-footer > .buttons > .delete > button {
+  border: none;
+  background: transparent;
+  font-size: 1em;
+  outline: none;
+  cursor: pointer;
+}
+
+.post > .post-footer > .buttons > .delete > button > svg {
+  margin-top: -3px;
+  margin-right: 2px;
+}
+
+.post > .post-footer > .info1, .info2 {
+  float: right;
+}
+
+.post > .post-footer > .info1 > .comments {
+  font-size: .9em;
+}
+
+.post > .post-footer > .info1 > .category {
+  font-size: .9em;
   border: 1px solid #f0f0f0;
   border-radius: 5px;
+  padding: 1px 5px 2px 5px;
   margin: 0 5px;
   background: #d3f1f5;
 }
 
-.post > .post-footer > .edit {
-  float: left;
+.post > .post-footer > .info2 > .author {
+  font-size: .9em;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  padding: 1px 4px 2px 4px;
+  background: #f5f7e2;
 }
 
-.post > .post-footer > .edit > a {
-  text-decoration: none;
+.post > .post-footer > .info2 > .author > svg {
+  padding-right: 3px;
+}
+
+.post > .post-footer > .info2 > .timestamp {
+  font-size: .9em;
+  padding: 1px 10px 2px 10px;
 }
 
 .edit-post {
@@ -310,9 +372,10 @@ button.primary {
   margin: 0 5px;
   border: 1px solid #808080;
   border-radius: 5px;
+  color: #fff;
 }
 
-.post-footer > a.cancel {
+button.cancel, a.cancel {
   min-height: 30px;
   font-size: 1.2em;
   padding: 5px 10px;
@@ -321,10 +384,7 @@ button.primary {
   border-radius: 5px;
   text-decoration: none;
   color: #000;
-}
-
-.view-post {
-  padding: 10px;
+  background: #fff;
 }
 
 .view-post > ul, li {
@@ -337,7 +397,7 @@ button.primary {
 }
 
 .view-post .comments {
-  margin-left: 75px;
+  margin-left: 50px;
 }
 
 .view-post .comments > ul {
@@ -389,13 +449,164 @@ button.primary {
   font-size: 1.1em;
 }
 
-.view-post .comment > .comment-footer {
+.comment-footer {
   margin-top: 10px;
-  margin-left: 70px;
+  margin-left: 25px;
   text-align: right;
   padding: 10px;
 }
 
+.comment-footer > .buttons, .info {
+  float: right;
+}
+
+.comment-footer > .buttons > .edit {
+  margin: 0 3px 0 0;
+  border: none;
+  background: transparent;
+  font-size: 1em;
+  outline: none;
+  cursor: pointer;
+}
+
+.comment-footer > .buttons > .edit > svg {
+  margin-right: 2px;
+}
+
+.comment-footer > .buttons > .delete {
+  margin: 0 3px 0 0;
+  border: none;
+  background: transparent;
+  font-size: 1em;
+  outline: none;
+  cursor: pointer;
+}
+
+.comment-footer > .buttons > .delete > svg {
+  margin-right: 2px;
+}
+
+.comment-footer > .info > .author {
+  font-size: .9em;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  padding: 1px 4px 2px 4px;
+  background: #f5f7e2;
+  margin-right: 5px;
+}
+
+.comment-footer > .info > .author > svg {
+  padding-right: 3px;
+}
+
+.comment-footer > .info > .timestamp {
+  font-size: 1em;
+}
+
 .view-post .add-comment {
   float: right;
+  margin-top: -25px;
+  border: none;
+  background: transparent;
+  color: #005998;
+  font-size: 1.2em;
+  outline: none;
+  cursor: pointer;
+}
+
+.view-post .add-comment > svg {
+  margin-right: 3px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.comments-modal {
+  position: absolute;
+  top: 200px;
+  left: 100px;
+  right: 100px;
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 10px;
+  border-radius: 3px;
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,.24), 0 3px 12px 0 rgba(0,0,0,.12);
+  min-width: 500px;
+}
+
+.comments-modal .modal-body > textarea {
+  position: relative;
+  left: 0;
+  right: 0;
+  height: 75px;
+  font-size: 0.9em;
+}
+
+.comments-modal .modal-body input {
+  width: 96%;
+  padding: 5px;
+  font-size: 0.9em;
+  border: 1px solid #b3b3b3;
+  border-radius: 3px;
+  margin: 5px 0;
+}
+
+.comments-modal .modal-footer {
+  margin: 15px 0 5px 0;
+  text-align: center;
+}
+
+
+/* mobile */
+@media only screen and (max-width: 768px) {
+  .header > h1 {
+    font-size: 1.8em;
+    font-weight: 400;
+  }
+
+  .links {
+    display: none;
+  }
+
+  .post {
+    margin: 0 10px 0 0;
+    padding: 25px 0 50px 0;
+  }
+
+  .post > .post-footer > .buttons, .info {
+    float: none;
+    padding-right: 0;
+  }
+
+  .comment-footer > .buttons, .info {
+    float: none;
+  }
+
+  .comments-modal {
+    top: 100px;
+    left: 10px;
+    right: 10px;
+    min-width: 200px;
+  }
+
+  .comments-modal .modal-body > textarea {
+    min-height: 200px;
+  }
+
+  .field-group {
+    width: 95%;
+  }
+
+  .field-group > textarea {
+    min-height: 200px;
+  }
 }

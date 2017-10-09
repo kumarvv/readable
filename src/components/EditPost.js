@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as Actions from "../actions"
 import PostForm from './PostForm'
-import { HomeLink } from './Links'
 
 class EditPost extends Component {
   onSubmit = (post) => {

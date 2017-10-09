@@ -12,6 +12,13 @@ class App extends Component {
   componentDidMount() {
     this.props.getCategories()
     this.props.getAllPosts()
+      .then(posts => {
+        Array.isArray(posts) && (
+          posts
+            .filter(post => !post.deleted)
+            .forEach(post => this.props.getComments(post.id))
+        )
+      })
   }
 
   render() {
@@ -52,7 +59,8 @@ class App extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     getCategories: () => dispatch(Actions.getCategories()),
-    getAllPosts: () => dispatch(Actions.getAllPosts())
+    getAllPosts: () => dispatch(Actions.getAllPosts()),
+    getComments: (postId) => dispatch(Actions.getComments(postId))
   }
 }
 

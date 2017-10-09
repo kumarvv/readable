@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import EditIcon from 'react-icons/lib/fa/edit'
-import AddIcon from 'react-icons/lib/fa/plus-square-o'
+import AddIcon from 'react-icons/lib/fa/plus-circle'
 import HomeIcon from 'react-icons/lib/fa/home'
 
 export const EditLink = ({ id, label }) => (

@@ -4,19 +4,20 @@ import * as Actions from "../actions"
 import Post from './Post'
 import CategoryLinks from './CategoryLinks'
 import SortLinks from './SortLinks'
-import { CreateLink } from './Links'
 
 class PostList extends Component {
-  reloadPosts() {
-    this.props.getAllPosts()
-  }
-
-  render() {
-    const { posts, match } = this.props
+  componentDidMount() {
+    const { match } = this.props
 
     let currentCategory = match && match.params
       ? match.params.category
       : null
+
+    this.props.changeCategory(currentCategory)
+  }
+
+  render() {
+    const { posts, comments, currentCategory } = this.props
 
     let displayPosts = posts && posts
       .filter(post => !post.deleted)
@@ -33,7 +34,10 @@ class PostList extends Component {
           {(Array.isArray(displayPosts) && displayPosts.length > 0 && (
             <ul>
               {displayPosts.map((post) => (
-                <Post key={post.id} post={post}/>
+                <Post
+                  key={post.id}
+                  post={post}
+                  comments={comments}/>
               ))}
             </ul>
           )) || (
@@ -48,12 +52,13 @@ class PostList extends Component {
 PostList.propTypes = {
 }
 
-function mapStateToProps({ categories, posts }) {
+function mapStateToProps({ categories, posts, comments }) {
   return {
     categories: categories,
     currentCategory: posts.currentCategory,
     currentSortBy: posts.currentSortBy,
-    posts: posts.data
+    posts: posts.data,
+    comments: comments.data
   }
 }
 

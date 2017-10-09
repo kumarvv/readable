@@ -78,8 +78,6 @@ export const deletePost = (id) => {
     },
     body: JSON.stringify({})
   })
-    .then(res => res.json())
-    .then(data => data.post)
 }
 
 export const getComments = (postId) => {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import * as Actions from '../actions'
 import CheckIcon from 'react-icons/lib/fa/check'
 
-const SORT_BY_PROPS = [ 'timestamp', 'voteScore' ]
+const SORT_BY_PROPS = [ 'voteScore', 'timestamp' ]
 
 class SortLinks extends Component {
   changeSortBy(catg) {
