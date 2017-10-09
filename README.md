@@ -23,14 +23,14 @@ npm install
 1. Run the api-server: 
 ```
 cd reactnd-project-readable-starter/api-server
-node server
+npm start
 ```
 2. Run the readable server: 
 ```
 cd readable 
 npm start 
 ```
-3 web application will be automatically opened in your favorite browser or manually open the url: `http://localhost:3000`
+3. web application will be automatically opened in your favorite browser or manually open the url: `http://localhost:3000`
 
 ## Create React App
 This project was bootstrapped with Create React App. You can find more information on how to perform common tasks here.
