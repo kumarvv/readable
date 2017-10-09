@@ -27,7 +27,7 @@ function handleErrors(response) {
     return response;
 }
 
-const okGetCategories = (categories) => ({
+const onGetCategories = (categories) => ({
   type: GET_CATEGORIES,
   categories
 })
@@ -36,11 +36,11 @@ export const getCategories = () => dispatch => (
    API
     .getCategories()
     .then(categories => {
-      return dispatch(okGetCategories(categories))
+      return dispatch(onGetCategories(categories))
     })
 )
 
-const okGetAllPosts = (posts) => ({
+const onGetAllPosts = (posts) => ({
   type: GET_ALL_POSTS,
   posts
 })
@@ -48,7 +48,7 @@ const okGetAllPosts = (posts) => ({
 export const getAllPosts = () => dispatch => {
   API
     .getAllPosts()
-    .then(posts => dispatch(okGetAllPosts(posts)))
+    .then(posts => dispatch(onGetAllPosts(posts)))
 }
 
 export const changeCategory = (category) => ({
@@ -61,7 +61,7 @@ export const changeSortBy = (sortBy) => ({
   currentSortBy: sortBy
 })
 
-function okAddPost(post, result) {
+function onAddPost(post, result) {
   return {
     type: ADD_POST,
     result,
@@ -82,11 +82,11 @@ export const addPost = (post) => dispatch => {
     .addPost(newPost)
     .then(resp => handleErrors(resp))
     .then(resp => resp.json())
-    .then(insertedPost => dispatch(okAddPost(insertedPost)))
-    .catch(err => okAddPost(post, err))
+    .then(insertedPost => dispatch(onAddPost(insertedPost)))
+    .catch(err => onAddPost(post, err))
 }
 
-function okUpdatePost(post, error) {
+function onUpdatePost(post, error) {
   return {
     type: UPDATE_POST,
     post,
@@ -99,13 +99,13 @@ export const updatePost = (post) => dispatch => {
     .updatePost(post.id, post)
     .then(resp => handleErrors(resp))
     .then(resp => resp.json())
-    .then(updated => dispatch(okUpdatePost(updated)))
+    .then(updated => dispatch(onUpdatePost(updated)))
     .catch(err => {
-      dispatch(okUpdatePost(post, err))
+      dispatch(onUpdatePost(post, err))
     })
 }
 
-function okDeletePost(id) {
+function onDeletePost(id) {
   return {
     type: DELETE_POST,
     id
@@ -116,11 +116,11 @@ export const deletePost = (id) => dispatch => {
   return API
     .deletePost(id)
     .then(deletedPost => {
-      dispatch(okDeletePost(deletedPost))
+      dispatch(onDeletePost(deletedPost))
     })
 }
 
-function okUpVote(post) {
+function onUpVote(post) {
   return {
     type: UP_VOTE,
     post
@@ -132,11 +132,11 @@ export const upVote = (id) => dispatch => {
     .addVote(id, 'upVote')
     .then(resp => handleErrors(resp))
     .then(resp => resp.json())
-    .then(post => dispatch(okUpVote(post)))
-    .catch(err => okUpVote(null, err))
+    .then(post => dispatch(onUpVote(post)))
+    .catch(err => onUpVote(null, err))
 }
 
-function okDownVote(post) {
+function onDownVote(post) {
   return {
     type: DOWN_VOTE,
     post
@@ -148,11 +148,11 @@ export const downVote = (id) => dispatch => {
     .addVote(id, 'downVote')
     .then(resp => handleErrors(resp))
     .then(resp => resp.json())
-    .then(post => dispatch(okDownVote(post)))
-    .catch(err => okDownVote(null, err))
+    .then(post => dispatch(onDownVote(post)))
+    .catch(err => onDownVote(null, err))
 }
 
-function okGetComments(postId, comments) {
+function onGetComments(postId, comments) {
   return {
     type: GET_COMMENTS,
     postId,
@@ -164,73 +164,106 @@ export const getComments = (postId) => dispatch => {
   return API
     .getComments(postId)
     .then(data => {
-      dispatch(okGetComments(postId, data))
+      dispatch(onGetComments(postId, data))
     })
 }
 
 
-function okUpVoteComment(comment) {
+function onUpVoteComment(postId, comment) {
   return {
     type: UP_VOTE_COMMENT,
+    postId,
     comment
   }
 }
 
-export const upVoteComment = (id) => dispatch => {
+export const upVoteComment = (postId, commentId) => dispatch => {
   return API
-    .addCommentVote(id, 'upVote')
+    .addCommentVote(commentId, 'upVote')
     .then(resp => handleErrors(resp))
     .then(resp => resp.json())
-    .then(comment => dispatch(okUpVoteComment(comment)))
-    .catch(err => okUpVoteComment(null, err))
+    .then(comment => dispatch(onUpVoteComment(postId, comment)))
+    .catch(err => onUpVoteComment(null, null, err))
 }
 
-function okDownVoteComment(comment) {
+function onDownVoteComment(postId, comment) {
   return {
     type: DOWN_VOTE_COMMENT,
+    postId,
     comment
   }
 }
 
-export const downVoteComment = (id) => dispatch => {
+export const downVoteComment = (postId, commentId) => dispatch => {
   return API
-    .addCommentVote(id, 'downVote')
+    .addCommentVote(commentId, 'downVote')
     .then(resp => handleErrors(resp))
     .then(resp => resp.json())
-    .then(comment => dispatch(okDownVoteComment(comment)))
-    .catch(err => okDownVoteComment(null, err))
+    .then(comment => dispatch(onDownVoteComment(postId, comment)))
+    .catch(err => onDownVoteComment(null, null, err))
 }
 
-function onAddComment(comment, error) {
+function onAddComment(postId, comment, error) {
   return {
     type: ADD_COMMENT,
+    postId,
     comment,
     error: error ? error : null
   }
 }
 
-export const addComment = (comment) => dispatch => {
+export const addComment = (postId, comment) => dispatch => {
+  const newComment = {
+    ...comment,
+    id: randomString(20, '#aA'),
+    parentId: postId,
+    timestamp: Date.now(),
+    voterScore: 0,
+    deleted: false
+  }
+
   return API
-    .addComment(comment)
+    .addComment(newComment)
     .then(resp => handleErrors(resp))
     .then(resp => resp.json())
-    .then(comment => dispatch(onAddComment(comment)))
-    .catch(err => onAddComment(null, err))
+    .then(added => dispatch(onAddComment(postId, added)))
+    .catch(err => onAddComment(null, null, err))
 }
 
-function onUpdateComment(comment, error) {
+function onUpdateComment(postId, comment, error) {
   return {
     type: UPDATE_COMMENT,
+    postId,
     comment,
     error: error ? error : null
   }
 }
 
-export const updateComment = (comment) => dispatch => {
+export const updateComment = (postId, comment) => dispatch => {
   return API
     .updateComment(comment)
     .then(resp => handleErrors(resp))
     .then(resp => resp.json())
-    .then(comment => dispatch(onUpdateComment(comment)))
-    .catch(err => onUpdateComment(null, err))
+    .then(comment => dispatch(onUpdateComment(postId, comment)))
+    .catch(err => onUpdateComment(null, null, err))
 }
+
+
+function onDeleteComment(postId, commentId, error) {
+  return {
+    type: DELETE_COMMENT,
+    postId,
+    commentId,
+    error: error ? error : null
+  }
+}
+
+export const deleteComment = (postId, commentId) => dispatch => {
+  return API
+    .deleteComment(commentId)
+    .then(resp => handleErrors(resp))
+    .then(resp => resp.json())
+    .then(resp => dispatch(onDeleteComment(postId, commentId)))
+    .catch(err => onDeleteComment(null, null, err))
+}
+

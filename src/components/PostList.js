@@ -23,24 +23,23 @@ class PostList extends Component {
       .filter(post => currentCategory ? currentCategory === post.category : true)
 
     return (
-      <div>
-        <CategoryLinks/>
-        <SortLinks/>
-        <CreateLink/>
+      <div className="posts-list">
+        <div className="links">
+          <CategoryLinks/>
+          <SortLinks/>
+        </div>
 
-        <button type="button" onClick={() => this.reloadPosts()}>Refresh</button>
-
-        <h1>Category={currentCategory}</h1>
-        {(Array.isArray(displayPosts) && displayPosts.length > 0 && (
-          <ul className="posts">
-            {displayPosts.map((post) => (
-              <Post key={post.id} post={post}/>
-            ))}
-          </ul>
-        )) || (
-          <h3>No posts found</h3>
-        )}
-
+        <div className="posts">
+          {(Array.isArray(displayPosts) && displayPosts.length > 0 && (
+            <ul>
+              {displayPosts.map((post) => (
+                <Post key={post.id} post={post}/>
+              ))}
+            </ul>
+          )) || (
+            <h3>No posts found</h3>
+          )}
+        </div>
       </div>
     )
   }

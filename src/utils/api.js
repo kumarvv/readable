@@ -105,8 +105,8 @@ export const addComment = (comment) => {
   })
 }
 
-export const updateComment = (id, comment) => {
-  return fetch(`${api}/comments/${id}`, {
+export const updateComment = (comment) => {
+  return fetch(`${api}/comments/${comment.id}`, {
     method: 'PUT',
     headers: {
       ...headers,
@@ -116,7 +116,7 @@ export const updateComment = (id, comment) => {
   })
 }
 
-export const deleteComment = (id, comment) => {
+export const deleteComment = (id) => {
   return fetch(`${api}/comments/${id}`, {
     method: 'DELETE',
     headers: {

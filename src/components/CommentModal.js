@@ -1,36 +1,25 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Modal from 'react-modal'
 import serializeForm from 'form-serialize'
+import fillForm from '../utils/form'
 
 class CommentModal extends Component {
-  state = {
-    commentBody: ''
-  }
-
-  componentDidMount() {
-    const { comment } = this.props
-    this.setState(() => ({
-      commentBody: comment ? comment.body : ''
-    }))
-
-    let elm = document.getElementsByName('body')[0]
-    if (elm) {
-      elm.value = comment ? comment.body : ''
-    }
+  onAfterModalOpen(comment) {
+    fillForm(comment)
   }
 
   onSubmit(e) {
     const { postId, comment } = this.props
 
+    e.preventDefault()
     const values = serializeForm(e.target, { hash: true })
-    const edited = {
-      ...comment,
-      ...values,
-      postId: postId
-    }
 
-    if (this.props.onSubmitModal) {
-      this.props.onSubmitModal(edited)
+    if (this.props.onSubmit) {
+      this.props.onSubmit(postId, {
+        ...comment,
+        ...values
+      })
     }
   }
 
@@ -42,7 +31,6 @@ class CommentModal extends Component {
 
   render() {
     const { modalOpen, onClose, comment } = this.props
-    const { commentBody } = this.state
 
     return (
       <Modal
@@ -50,21 +38,44 @@ class CommentModal extends Component {
         overlayClassName="overlay"
         isOpen={modalOpen}
         onRequestClose={onClose}
+        onAfterOpen={(e) => this.onAfterModalOpen(comment)}
         contentLabel="Modal"
       >
         <form onSubmit={(e) => this.onSubmit(e)}>
-          <textarea
-            name="body"
-            placeholder="Body"
-            value={commentBody}
-            onChange={(e) => this.handleChange(e.target.value)}
+          <p>
+            <textarea
+              name="body"
+              placeholder="Body"
             />
-          <button>Save</button>
-          <button type="cancel" onClick={onClose}>Cancel</button>
+          </p>
+          <p>
+            <input
+              type="text"
+              name="author"
+              placeholder="Author"
+            />
+          </p>
+
+          <div className="footer">
+            <button
+              type="submit">
+              Save
+            </button>
+            <button
+              type="cancel"
+              onClick={onClose}>
+              Cancel
+            </button>
+          </div>
         </form>
       </Modal>
     )
   }
+}
+
+CommentModal.propTypes = {
+  comment: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func
 }
 
 export default CommentModal

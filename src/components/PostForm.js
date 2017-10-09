@@ -27,7 +27,7 @@ class PostForm extends Component {
     return (
       <form className="post-form"
             onSubmit={(e) => this.handleSubmit(e)}>
-        <div className="create-contact-details">
+        <div className="post-content">
           <div className="field-group">
             <label htmlFor="title">Title</label>
             <input type="text" name="title" placeholder="Title"/>
@@ -45,13 +45,19 @@ class PostForm extends Component {
             <select name="category" placeholder="Category">
               {Array.isArray(categories) && (
                 categories.map((catg) => (
-                  <option key={catg.name} value={catg.name}>{catg.name}</option>
+                  <option
+                    key={catg.name}
+                    value={catg.name}>
+                    {catg.name}
+                  </option>
                 ))
               )}
             </select>
           </div>
-          <button>Save</button>
-          <Link to="/">Cancel</Link>
+          <div className="post-footer">
+            <button className="primary">Save</button>
+            <Link to="/" className="cancel">Cancel</Link>
+          </div>
         </div>
       </form>
     )

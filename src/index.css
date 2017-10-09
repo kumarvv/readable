@@ -1,193 +1,401 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 200;
 }
 
-ul {
-  padding-left: 0;
+p {
+  font-size: 1.4em;
+  font-weight: 200;
+  margin: 5px;
 }
 
-li {
-  list-style-type: none;
+h1 {
+  font-weight: 300;
+  font-size: 3em;
+  margin: 5px;
 }
 
 .container {
-  margin: 0 auto;
-  max-width: 1070px;
-  padding: 20px;
-  min-width: 1070px;
+  padding-bottom: 60px;
 }
 
 .header {
-  font-size: 50px;
-  font-weight: 300;
-  margin: 10px 0;
-}
-
-.subheader {
-  font-size: 30px;
-  font-weight: 300;
-}
-
-.icon-btn {
-  background: none;
-  border: none;
-}
-
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.shopping-list {
-  background: none;
-  font-size: 18px;
-  border: none;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.calendar {
-  margin-top: 0;
-  display: flex;
-}
-
-.icon-grid ul {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.icon-grid {
-  flex: 1;
-}
-
-.meal-types {
-  display: flex;
-  justify-content: space-around;
-  margin: 0;
-  margin-left: 152px;
-}
-
-.meal {
-  font-size: 23px;
-  display: flex;
-  flex-direction: column;
-  height: 150px;
-  width: 100px;
-  justify-content: center;
-}
-
-.meal svg {
-  margin: 0 auto;
-  display: block;
-  margin-top: 15px;
-  cursor: pointer;
-}
-
-.overlay {
   position: fixed;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  background-color: rgba(255, 255, 255, 0.75);
-}
-
-.modal {
-  position: absolute;
-  top: 40px;
-  left: 200px;
-  right: 200px;
-  bottom: 40px;
-  border: 1px solid rgb(204, 204, 204);
-  background: rgb(255, 255, 255);
-  overflow: auto;
-  border-radius: 4px;
-  outline: none;
-  padding: 20px;
-  border-radius: 3px;
-  box-shadow: 0 3px 8px 0 rgba(0,0,0,.24), 0 3px 12px 0 rgba(0,0,0,.12);
-  min-width: 500px;
-}
-
-.search-container h3 {
+  top: 0;
+  left: 0;
+  height: 60px;
+  width: 100%;
   text-align: center;
+  background: #607D8B;
+  z-index: 10;
 }
 
-.food-input {
-  width: 90%;
-  padding: 10px;
+.header h1 {
+  color: #fff;
+}
+
+.header > .home-link {
+  position: fixed;
+  left: 10px;
+  top: 35px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.header > .home-link > svg {
+  margin-top: -3px;
+  margin-right: 3px;
+}
+
+.header > .add-link {
+  position: fixed;
+  right: 10px;
+  top: 35px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.header > .add-link > svg {
+  margin-top: -2px;
+  margin-right: 3px;
+}
+
+.content {
+  position: relative;
+  top: 60px;
+}
+
+.posts-list > ul {
+  padding: 0;
+}
+
+.posts-list > .links {
+  position: fixed;
+  right: 0;
+  width: 160px;
+  height: 100%;
+
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d8d8d8+0,f3f9fb+69,ffffff+100 */
+  background: #d8d8d8; /* Old browsers */
+  background: -moz-linear-gradient(-45deg,  #d8d8d8 0%, #f3f9fb 69%, #ffffff 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg,  #d8d8d8 0%,#f3f9fb 69%,#ffffff 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg,  #d8d8d8 0%,#f3f9fb 69%,#ffffff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d8d8d8', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.posts-list > .links > .category-links > h3 {
+  padding-left: 10px;
+  margin-bottom: 5px;
+  color: #3d4d54;
+}
+
+.posts-list > .links > .category-links > ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+}
+
+.posts-list > .links > .category-links > ul > li {
+  width: 100%;
+  height: 20px;
+  padding: 3px 15px;
+}
+
+.posts-list > .links > .category-links > ul > li.selected {
+  background: #fff;
+}
+
+.posts-list > .links > .category-links > ul > li > a {
+  text-decoration: none;
+  color: #607D8B;
+  font-weight: 400;
+}
+
+.posts-list > .links > .category-links > ul > li.selected > a {
+  color: #000;
+  font-weight: 800;
+}
+
+.posts-list > .links > .sort-links > h3 {
+  padding-left: 10px;
+  margin-bottom: 0;
+  color: #3d4d54;
+}
+
+.posts-list > .links > .sort-links > ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+}
+
+.posts-list > .links > .sort-links > ul > li {
+  width: 100%;
+  height: 20px;
+  padding: 3px 15px;
+}
+
+.posts-list > .links > .sort-links > ul > li > button {
+  border: none;
+  background: transparent;
   font-size: 1em;
-  border: 1px solid #bdbdbd;
+  color: #607D8B;
+  font-weight: 400;
   outline: none;
 }
 
-.search {
-  display: flex;
+.posts-list > .links > .sort-links > ul > li.selected > button {
+  font-weight: 800;
+  color: #000;
 }
 
-.loading {
-  align-self: center;
-  margin: 0 auto;
+.posts-list > .posts > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.days h3 {
-  padding: 50px 0;
+.posts-list > .posts h2 {
+  font-size: 1.4em;
+  font-weight: 400;
+  margin: 3px 0;
 }
 
-.food-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+.posts-list > .posts h2 > a {
+  text-decoration: none;
 }
 
-.food-list li {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  cursor: pointer;
+.author {
+  font-size: .7em;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  padding: 1px 4px 2px 4px;
+  background: #f5f7e2;
 }
 
-.food-list img {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto;
-  border-radius: 3px;
+.author > svg {
+  padding-right: 3px;
 }
 
-.ingredients-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.timestamp {
+  font-size: .7em;
+  padding: 1px 10px 2px 10px;
 }
 
-.ingredients-list li {
-  font-size: 24px;
-  padding: 5px;
+.comments {
+  font-size: .7em;
+  font-weight: 400;
 }
 
-.food-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.posts-list > .posts .post:first-child {
+  border-top: 1px solid silver;
 }
 
-.food-item img {
-  width: 100px;
-  height: 100px;
-  border-radius: 3px;
+.post {
+  margin: 0 160px 0 0;
+  padding: 25px 0;
+  border-bottom: 1px solid silver;
 }
 
-.food-item button {
-  background: none;
+.post > .votes {
+  position: absolute;
+  width: 70px;
+  text-align: center;
+  margin-top: -25px;
+}
+
+.post > .votes button {
   border: none;
-  text-decoration: underline;
-  font-size: 14px;
-  margin-top: 5px;
+  background: transparent;
+  padding: 5px;
+  height: 55px;
+  color: darkgray;
+  outline: none;
+}
+
+.post > .votes button.up {
+  margin-top: -20px;
+}
+
+.post > .votes > span {
+  font-size: 1.1em;
+  font-weight: 400;
+}
+
+.post > .post-body {
+  margin-left: 70px;
+}
+
+.post > .post-body > span {
+  font-size: 1.1em;
+}
+
+.post > .post-footer {
+  margin-top: 10px;
+  margin-left: 70px;
+  text-align: right;
+  padding: 10px;
+}
+
+.post > .post-footer > .category {
+  padding: 1px 5px 2px 5px;
+  font-size: .8em;
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+  margin: 0 5px;
+  background: #d3f1f5;
+}
+
+.post > .post-footer > .edit {
+  float: left;
+}
+
+.post > .post-footer > .edit > a {
+  text-decoration: none;
+}
+
+.edit-post {
+  padding: 10px;
+}
+
+.edit-post > h2 {
+  margin: 0;
+}
+
+.field-group {
+  width: 100%;
+  padding: 10px;
+}
+
+input, label {
+  display:block;
+}
+
+.field-group > label {
+  font-size: .7em;
+  font-weight: 400;
+  margin-bottom: 3px;
+}
+
+.field-group > input, select, textarea {
+  width: 96%;
+  padding: 4px 6px;
+  font-size: .9em;
+  font-weight: 300;
+  border: 1px solid #b3b3b3;
+  border-radius: 3px;
+  min-height: 22px;
+}
+
+.field-group > textarea {
+  min-height: 250px;
+}
+
+.field-group > select {
+  height: 32px;
+  width: 98%;
+}
+
+.post-footer {
+  text-align: center;
+  margin: 15px 0;
+}
+
+button.primary {
+  min-height: 30px;
+  font-size: 1.2em;
+  background: dodgerblue;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: 1px solid #808080;
+  border-radius: 5px;
+}
+
+.post-footer > a.cancel {
+  min-height: 30px;
+  font-size: 1.2em;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: 1px solid #808080;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #000;
+}
+
+.view-post {
+  padding: 10px;
+}
+
+.view-post > ul, li {
+  list-style: none;
+}
+
+.view-post .post {
+  margin: 0;
+  border: none;
+}
+
+.view-post .comments {
+  margin-left: 75px;
+}
+
+.view-post .comments > ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.view-post .comments > ul > li:first-child .comment {
+  border-top: 1px solid #dadada;
+}
+
+.view-post .comment {
+  margin: 0;
+  padding: 7px 0;
+  border-bottom: 1px solid #dadada;
+}
+
+.view-post .comment > .votes {
+  position: absolute;
+  width: 30px;
+  text-align: center;
+  margin-top: -7px;
+}
+
+.view-post .comment > .votes button {
+  border: none;
+  background: transparent;
+  padding: 5px;
+  height: 25px;
+  color: darkgray;
+  outline: none;
+}
+
+.view-post .comment > .votes button.up {
+  margin-top: -20px;
+}
+
+.view-post .comment > .votes > span {
+  font-size: 1.1em;
+  font-weight: 400;
+}
+
+.view-post .comment > .comment-body {
+  margin-left: 30px;
+}
+
+.view-post .comment > .comment-body > span {
+  font-size: 1.1em;
+}
+
+.view-post .comment > .comment-footer {
+  margin-top: 10px;
+  margin-left: 70px;
+  text-align: right;
+  padding: 10px;
+}
+
+.view-post .add-comment {
+  float: right;
 }

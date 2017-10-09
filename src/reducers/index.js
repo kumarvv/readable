@@ -77,6 +77,10 @@ function posts(state = {}, action) {
 }
 
 function comments(state = {}, action) {
+  if (!action.postId) {
+    return state
+  }
+
   switch(action.type) {
     case Actions.GET_COMMENTS:
       return {
@@ -97,30 +101,38 @@ function comments(state = {}, action) {
         ...state,
         data: {
           ...state.data,
-          [action.postId]: state.data
-            ? state.data.concat(action.comment)
+          [action.postId]: Array.isArray(state.data[action.postId])
+            ? state.data[action.postId].concat(action.comment).sort(sortByDesc('voteScore'))
             : [action.comment]
         }
       }
 
     case Actions.UPDATE_COMMENT:
-    case Actions.DELETE_COMMENT:
     case Actions.UP_VOTE_COMMENT:
     case Actions.DOWN_VOTE_COMMENT:
       return {
         ...state,
         data: {
           ...state.data,
-          [action.postId]: (Array.isArray(state.data)
-            ? state.data.map(c => action.comment && c.id === action.comment.id
-              ? action.comment
-              : c)
-            : [action.comment]
-          ).sort(sortByDesc('voteScore'))
+          [action.postId]: Array.isArray(state.data[action.postId])
+            ? state.data[action.postId].map(c => c.id === action.comment.id ? action.comment : c).sort(sortByDesc('voteScore'))
+            : []
         },
         error: action.error ? action.error.message : null
       }
 
+    case Actions.DELETE_COMMENT:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          [action.postId]: (Array.isArray(state.data[action.postId])
+              ? state.data[action.postId].filter(c => c.id !== action.commentId)
+              : []
+          )
+        },
+        error: action.error ? action.error.message : null
+      }
     default:
       return state
   }

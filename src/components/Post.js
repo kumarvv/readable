@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as Actions from "../actions"
 import { EditLink, ViewLink } from './Links'
+import UserIcon from 'react-icons/lib/fa/user'
+import UpIcon from 'react-icons/lib/fa/angle-up'
+import DownIcon from 'react-icons/lib/fa/angle-down'
 
 class Post extends Component {
   render() {
@@ -9,24 +12,37 @@ class Post extends Component {
 
     return (
       <li className="post">
-
-        <EditLink id={post.id}/>
-
-        <h2><ViewLink id={post.id} label={post.title} /></h2>
-        <p>
-          <span className="author">{post.author}</span> posted on
-          <span className="timestamp">{post.timestampStr}</span>
-          <span className="comments">0 comments</span>
-        </p>
-        <p>{post.body}</p>
-        <p>
-          <span className="category">{post.category}</span>
+        <div className="votes">
+          <button
+            type="button"
+            className="down"
+            onClick={() => this.props.upVote(post.id)}>
+            <UpIcon size={60}/>
+          </button>
           <span className="vote">{post.voteScore}</span>
-        </p>
-        <p>
-          <button type="button" onClick={() => this.props.upVote(post.id)}>UP</button>
-          <button type="button" onClick={() => this.props.downVote(post.id)}>DOWN</button>
-        </p>
+          <button
+            type="button"
+            className="up"
+            onClick={() => this.props.downVote(post.id)}>
+            <DownIcon size={60}/>
+          </button>
+        </div>
+
+        <div className="post-body">
+          <h2><ViewLink id={post.id} label={post.title} /></h2>
+          <span>{post.body}</span>
+        </div>
+
+        <div className="post-footer">
+          <span className="edit"><EditLink id={post.id}/></span>
+          <span className="comments">0 comments</span>
+          <span className="category">{post.category}</span>
+          <span className="author">
+            <UserIcon size={16}/>
+            {post.author}
+          </span>
+          <span className="timestamp">posted on {post.timestampStr}</span>
+        </div>
       </li>
     )
   }

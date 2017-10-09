@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Modal from 'react-modal'
 import * as Actions from '../actions'
 import Comment from './Comment'
 import CommentModal from "./CommentModal";
@@ -9,14 +8,14 @@ class CommentsList extends Component {
   state = {
     modalOpen: false,
     modalComment: {},
-    modalMode: 'create'
+    modalMode: 'add'
   }
 
   openAddModal = () => {
     this.setState(() => ({
       modalOpen: true,
       modalComment: {},
-      modalMode: 'create'
+      modalMode: 'add'
     }))
   }
 
@@ -34,56 +33,55 @@ class CommentsList extends Component {
     }))
   }
 
-
-  onSubmitModal(comment) {
+  onSubmitModal(postId, comment) {
     const { updateComment, addComment } = this.props
-    const { mode } = this.state
+    const { modalMode } = this.state
 
-    if (mode === 'edit') {
-      updateComment(comment)
+    if (modalMode === 'edit') {
+      updateComment(postId, comment)
     } else {
-      addComment(comment)
+      addComment(postId, comment)
     }
 
     this.closeModal()
   }
 
   render() {
-    const { postId, comments } = this.props
-    const { modalMode, modalComment, modalOpen } = this.state
+    const { post, comments } = this.props
+    const { modalComment, modalOpen } = this.state
 
+    const postId = post ? post.id : null
     const postComments = comments ? comments[postId] : []
 
     return (
-      <div>
-        <h1>Comments</h1>
+      <div className="comments">
+        <h2>Comments</h2>
+        <button
+          type="button"
+          className="add-comment"
+          onClick={() => this.openAddModal()}>
+          Add Comment
+        </button>
+
         <ul>
         { Array.isArray(postComments) && (
           postComments.map(comment => (
             <li key={comment.id}>
-              <Comment comment={comment}/>
-              <button
-                type="button"
-                onClick={() => this.openEditModal(comment)}>Edit</button>
+              <Comment
+                comment={comment}
+                onClickEdit={(comment) => this.openEditModal(comment)}/>
             </li>
           ))
         )}
         </ul>
-
-        <button
-          type="button"
-          onClick={() => this.openAddModal()}>
-          Add Comment
-        </button>
 
         { modalOpen && (
           <CommentModal
             postId={postId}
             modalOpen={modalOpen}
             comment={modalComment}
-            mode={modalMode}
             onClose={() => this.closeModal()}
-            onSubmit={(comment) => this.onSubmitModal(comment)}
+            onSubmit={(postId, comment) => this.onSubmitModal(postId, comment)}
             />
         )}
       </div>
@@ -91,10 +89,11 @@ class CommentsList extends Component {
   }
 }
 
-function mapStateToProps({ posts }) {
+function mapDispatchToProps(dispatch) {
   return {
-    posts: posts.data
+    updateComment: (postId, comment) => dispatch(Actions.updateComment(postId, comment)),
+    addComment: (postId, comment) => dispatch(Actions.addComment(postId, comment))
   }
 }
 
-export default connect(mapStateToProps, null)(CommentsList)
+export default connect(null, mapDispatchToProps)(CommentsList)

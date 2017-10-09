@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as Actions from '../actions'
+import CheckIcon from 'react-icons/lib/fa/check'
 
 const SORT_BY_PROPS = [ 'timestamp', 'voteScore' ]
 
@@ -10,17 +11,24 @@ class SortLinks extends Component {
   }
 
   render() {
-    const { currentSortBy } = this.props
-
     return (
-      <ul className="sort-by-props">
-        {SORT_BY_PROPS.map(sortBy => (
-          <li key={sortBy}>
-            <button type="button" onClick={() => this.changeSortBy(sortBy)}>{sortBy}</button>
-            {sortBy === currentSortBy && (<span>*</span>)}
-          </li>
-        ))}
-      </ul>
+      <div className="sort-links">
+        <h3>Sort by</h3>
+        <ul>
+          {SORT_BY_PROPS.map(sortBy => (
+            <li
+              key={sortBy}
+              className={sortBy === this.props.currentSortBy && ('selected')}>
+              <button
+                type="button"
+                onClick={() => this.changeSortBy(sortBy)}>
+                {sortBy}
+              </button>
+              {sortBy === this.props.currentSortBy && (<CheckIcon size={16}/>)}
+            </li>
+          ))}
+        </ul>
+      </div>
     )
   }
 }

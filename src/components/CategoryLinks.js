@@ -12,24 +12,25 @@ class CategoryLinks extends Component {
     const { categories, currentCategory } = this.props
 
     return (
-      <ul>
-        <li>
-          <Link
-            to="/"
-            onClick={() => this.changeCategory(null)}>Home
-          </Link>
-          {!currentCategory && (<span>*</span>)}
-        </li>
-        {Array.isArray(categories) && categories.map(catg => (
-          <li key={catg.name}>
+      <div className="category-links">
+        <h3>Categories</h3>
+        <ul>
+          <li className={!currentCategory && ('selected')}>
             <Link
-              to={`/${catg.path}`}
-              onClick={() => this.changeCategory(catg.name)}>{catg.name}
+              to="/"
+              onClick={() => this.changeCategory(null)}>All
             </Link>
-            {catg.name === currentCategory && (<span>*</span>)}
           </li>
-        ))}
-      </ul>
+          {Array.isArray(categories) && categories.map(catg => (
+            <li key={catg.name} className={catg.name === currentCategory && ('selected')}>
+              <Link
+                to={`/${catg.path}`}
+                onClick={() => this.changeCategory(catg.name)}>{catg.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     )
   }
 }

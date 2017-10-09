@@ -33,9 +33,8 @@ class EditPost extends Component {
     const categoriesList = Array.isArray(categories) ? categories : []
 
     return (
-      <div>
-        <h1>Edit Post</h1>
-        <HomeLink/>
+      <div className="edit-post">
+        <h2>Edit Post</h2>
 
         {post && (
           <PostForm

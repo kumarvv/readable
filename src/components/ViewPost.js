@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as Actions from "../actions"
 import CommentsList from './CommentsList'
-import { EditLink } from './Links'
+import { HomeLink, EditLink } from './Links'
+import Post from './Post'
 
 class ViewPost extends Component {
   componentDidMount() {
-    const { posts, comments, match } = this.props
+    const { match } = this.props
 
     const postId = match && match.params
       ? match.params.postId
@@ -30,25 +31,11 @@ class ViewPost extends Component {
       : null
 
     return (
-      <div>
-        <h1>View Post</h1>
-        <Link to="/">Home</Link>
+      <div className="view-post">
         {(post && (
           <div>
-            <EditLink id={post.id}/>
-
-            <h3>{post.title}</h3>
-            <p>
-              <span className="author">{post.author}</span> posted on
-              <span className="timestamp">{post.timestampStr}</span>
-              <span className="comments">0 comments</span>
-            </p>
-            <p>{post.body}</p>
-            <p>
-              <span className="category">{post.category}</span>
-              <span className="vote">{post.voteScore}</span>
-            </p>
-            <CommentsList postId={post.id} comments={comments}/>
+            <Post post={post}/>
+            <CommentsList post={post} comments={comments}/>
           </div>
         )) || (
           <p>Post not found</p>
