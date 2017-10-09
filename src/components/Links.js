@@ -5,13 +5,13 @@ import AddIcon from 'react-icons/lib/fa/plus-circle'
 import HomeIcon from 'react-icons/lib/fa/home'
 
 export const EditLink = ({ id, label }) => (
-  <Link to={`/posts/edit/${id}`} className="edit-link">
+  <Link to={`/posts/${id}/edit`} className="edit-link">
     <EditIcon size={16}/>{label ? label : 'edit'}
   </Link>
 )
 
 export const ViewLink = ({ id, label }) => (
-  <Link to={`/posts/view/${id}`} className="view-link">
+  <Link to={`/posts/${id}`} className="view-link">
     {label ? label : 'View'}
   </Link>
 )

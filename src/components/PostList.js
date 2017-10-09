@@ -20,7 +20,7 @@ class PostList extends Component {
     const { posts, comments, currentCategory } = this.props
 
     let displayPosts = posts && posts
-      .filter(post => !post.deleted)
+      .filter(post => post.deleted === false)
       .filter(post => currentCategory ? currentCategory === post.category : true)
 
     return (

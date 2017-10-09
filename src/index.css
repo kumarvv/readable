@@ -450,8 +450,7 @@ button.cancel, a.cancel {
 }
 
 .comment-footer {
-  margin-top: 10px;
-  margin-left: 25px;
+  margin: 10px 0 15px 25px;
   text-align: right;
   padding: 10px;
 }
@@ -585,6 +584,10 @@ button.cancel, a.cancel {
   .post > .post-footer > .buttons, .info {
     float: none;
     padding-right: 0;
+  }
+
+  .comment-footer {
+    margin: 10px 0 0 25px;
   }
 
   .comment-footer > .buttons, .info {

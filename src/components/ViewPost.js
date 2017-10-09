@@ -36,7 +36,7 @@ class ViewPost extends Component {
             <CommentsList post={post} comments={comments}/>
           </div>
         )) || (
-          <p>Post not found</p>
+          postId !== 'create' && (<p>Post not found</p>)
         )}
       </div>
     )

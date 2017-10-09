@@ -39,11 +39,11 @@ class App extends Component {
             <CreatePost history={history}/>
           )}/>
 
-          <Route exact path="/posts/view/:postId" render={({ history, match }) => (
+          <Route exact path="/posts/:postId" render={({ history, match }) => (
             <ViewPost match={match}/>
           )}/>
 
-          <Route path="/posts/edit/:postId" render={({ history, match }) => (
+          <Route exact path="/posts/:postId/edit" render={({ history, match }) => (
             <EditPost match={match} history={history}/>
           )}/>
 

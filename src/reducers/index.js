@@ -57,7 +57,6 @@ function posts(state = {}, action) {
       }
 
     case Actions.UPDATE_POST:
-    case Actions.DELETE_POST:
     case Actions.UP_VOTE:
     case Actions.DOWN_VOTE:
       return {
@@ -68,6 +67,18 @@ function posts(state = {}, action) {
             : p)
             : [action.post]
           ).sort(sortByDesc(currentSortBy)),
+        error: action.error ? action.error.message : null
+      }
+
+    case Actions.DELETE_POST:
+      return {
+        ...state,
+        data: (Array.isArray(state.data)
+            ? state.data.map(p => p.id === action.id
+              ? { ...p, deleted: true }
+              : p)
+            : [action.post]
+        ),
         error: action.error ? action.error.message : null
       }
 

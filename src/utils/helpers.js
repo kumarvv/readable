@@ -15,6 +15,12 @@ export function toDateString(timestamp) {
   }
 
   let dt = new Date(timestamp);
-  return dt.getMonth() + '/' + dt.getDate() + '/' + dt.getYear() +
-    ' at ' + dt.getHours() + ':' + dt.getMinutes();
+  return dt.getMonth() + '/' + dt.getDate() + '/' + dt.getFullYear() +
+    ' at ' + dt.getHours() + ':' + pad(dt.getMinutes(), 2);
+}
+
+export function pad(n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }

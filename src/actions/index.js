@@ -269,4 +269,3 @@ export const deleteComment = (postId, commentId) => dispatch => {
     .then(resp => dispatch(onDeleteComment(postId, commentId)))
     .catch(err => onDeleteComment(null, null, err))
 }
-
