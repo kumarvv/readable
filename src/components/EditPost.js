@@ -4,13 +4,12 @@ import * as Actions from "../actions"
 import PostForm from './PostForm'
 
 class EditPost extends Component {
-  onSubmit = (post) => {
+  handleSubmit = (post) => {
     const { error } = this.props
 
     if (this.props.updatePost) {
       this.props.updatePost(post)
         .then(() => {
-          console.log(error)
           if (error === null || error === undefined) {
             window.history.back()
           }
@@ -39,7 +38,7 @@ class EditPost extends Component {
           <PostForm
             post={post}
             categories={categoriesList}
-            onSubmit={(updated) => this.onSubmit(updated)}
+            onSubmit={(updated) => this.handleSubmit(updated)}
             />
         )}
 

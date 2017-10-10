@@ -28,7 +28,7 @@ class CreatePost extends Component {
           onSubmit={(inserted) => this.onSubmit(inserted)}
           />
 
-        <div className="error">{error}</div>
+        {error && (<div className="error">{error}</div>)}
       </div>
     )
   }

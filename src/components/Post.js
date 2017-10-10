@@ -9,6 +9,19 @@ import DeleteIcon from 'react-icons/lib/fa/trash-o'
 import { toDateString } from "../utils/helpers";
 
 class Post extends Component {
+  handleDeletePost(id) {
+    const { error, onDelete } = this.props
+
+    this.props.deletePost(id)
+      .then(() => {
+        if (error === null || error === undefined) {
+          if (onDelete) {
+            onDelete(id)
+          }
+        }
+      })
+  }
+
   render() {
     const { post, comments } = this.props
 
@@ -43,7 +56,7 @@ class Post extends Component {
             <span className="delete">
               <button
                 type="button"
-                onClick={() => this.props.deletePost(post.id)}>
+                onClick={() => this.handleDeletePost(post.id)}>
                 <DeleteIcon size={16}/>Delete
               </button>
             </span>

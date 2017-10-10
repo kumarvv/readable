@@ -17,6 +17,10 @@ class ViewPost extends Component {
     }
   }
 
+  handleDelete = (id) => {
+    window.history.back()
+  }
+
   render() {
     const { posts, comments, match } = this.props
 
@@ -32,8 +36,15 @@ class ViewPost extends Component {
       <div className="view-post">
         {(post && (
           <div>
-            <Post post={post} comments={comments}/>
-            <CommentsList post={post} comments={comments}/>
+            <Post
+              post={post}
+              comments={comments}
+              onDelete={(id) => this.handleDelete(id)}
+            />
+            <CommentsList
+              post={post}
+              comments={comments}
+            />
           </div>
         )) || (
           postId !== 'create' && (<p>Post not found</p>)
