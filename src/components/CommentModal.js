@@ -5,6 +5,10 @@ import serializeForm from 'form-serialize'
 import fillForm from '../utils/form'
 
 class CommentModal extends Component {
+  state = {
+    errors: []
+  }
+
   onAfterModalOpen(comment) {
     fillForm(comment)
   }
@@ -15,18 +19,35 @@ class CommentModal extends Component {
     e.preventDefault()
     const values = serializeForm(e.target, { hash: true })
 
-    if (this.props.onSubmit) {
-      this.props.onSubmit(postId, {
-        ...comment,
-        ...values
-      })
+    if (this.validate(values)) {
+      if (this.props.onSubmit) {
+        this.props.onSubmit(postId, {
+          ...comment,
+          ...values
+        })
+      }
     }
   }
 
-  handleChange(value) {
+  validate(values) {
+    let errors = []
+
+    if (!values) {
+      errors.push('invalid form data')
+    } else {
+      if (!values.body || values.body === '') {
+        errors.push("comment body is required")
+      }
+      if (!values.author || values.author === '') {
+        errors.push("comment author is required")
+      }
+    }
+
     this.setState(() => ({
-      commentBody: value
+      errors: errors
     }))
+
+    return errors.length === 0
   }
 
   render() {
@@ -53,6 +74,12 @@ class CommentModal extends Component {
               placeholder="Author"
             />
           </div>
+
+          {this.state.errors.length > 0 && (
+            <div className="error">
+              {this.state.errors.map((error, i) => (<p key={`error_${i}`}>{error}</p>))}
+            </div>
+          )}
 
           <div className="modal-footer">
             <button

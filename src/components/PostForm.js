@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom'
 import fillForm from '../utils/form'
 
 class PostForm extends Component {
+  state = {
+    errors: []
+  }
+
   componentDidMount() {
     fillForm(this.props.post)
   }
@@ -13,12 +17,39 @@ class PostForm extends Component {
     e.preventDefault()
 
     const values = serializeForm(e.target, { hash: true })
-    if (this.props.onSubmit) {
-      this.props.onSubmit({
-        ...this.props.post,
-        ...values
-      })
+
+    if (this.validate(values)) {
+      if (this.props.onSubmit) {
+        this.props.onSubmit({
+          ...this.props.post,
+          ...values
+        })
+      }
     }
+  }
+
+  validate(values) {
+    let errors = []
+
+    if (!values) {
+      errors.push('invalid form data')
+    } else {
+      if (!values.title || values.title === '') {
+        errors.push("post title is required")
+      }
+      if (!values.body || values.body === '') {
+        errors.push("post body is required")
+      }
+      if (!values.author || values.author === '') {
+        errors.push("post author is required")
+      }
+    }
+
+    this.setState(() => ({
+      errors: errors
+    }))
+
+    return errors.length === 0
   }
 
   render() {
@@ -54,6 +85,11 @@ class PostForm extends Component {
               )}
             </select>
           </div>
+          {this.state.errors.length > 0 && (
+            <div className="error">
+              {this.state.errors.map((error, i) => (<p key={`error_${i}`}>{error}</p>))}
+            </div>
+          )}
           <div className="post-footer">
             <button className="primary">Save</button>
             <Link to="/" className="cancel">Cancel</Link>

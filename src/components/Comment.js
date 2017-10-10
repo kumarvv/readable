@@ -41,6 +41,13 @@ class Comment extends Component {
         </div>
 
         <div className="comment-footer">
+          <div className="info">
+            <span className="author">
+              <UserIcon size={16}/>
+              {comment.author}
+            </span>
+            <span className="timestamp">posted on {toDateString(comment.timestamp)}</span>
+          </div>
           <div className="buttons">
             <button
               type="button"
@@ -54,13 +61,6 @@ class Comment extends Component {
               onClick={() => this.props.deleteComment(comment.parentId, comment.id)}>
               <DeleteIcon size={16}/>Delete
             </button>
-          </div>
-          <div className="info">
-            <span className="author">
-              <UserIcon size={16}/>
-              {comment.author}
-            </span>
-            <span className="timestamp">posted on {toDateString(comment.timestamp)}</span>
           </div>
         </div>
       </div>

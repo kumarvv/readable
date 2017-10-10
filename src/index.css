@@ -564,6 +564,16 @@ button.cancel, a.cancel {
   text-align: center;
 }
 
+.error {
+  font-size: .9em;
+  color: #f00;
+  border: 1px solid #f00;
+  border-radius: 5px;
+  padding: 5px;
+  background: rgba(255, 87, 34, 0.09);
+  margin: 6px;
+}
+
 
 /* mobile */
 @media only screen and (max-width: 768px) {
